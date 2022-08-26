@@ -1,3 +1,4 @@
+// Jakub Nowak 26.08.2022
 #include <iostream>
 #include <SDL2/SDL.h>
 
