@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/jakubnowak/Documents/c/repo/SDL/Moving Square'
+g++ -std=c++11 -Wall -O0 -g  -Iinclude src/main.cpp -o build/debug/play -F/Library/Frameworks -framework SDL2 -framework SDL2_image
+make: Leaving directory `/Users/jakubnowak/Documents/c/repo/SDL/Moving Square'
+ 
