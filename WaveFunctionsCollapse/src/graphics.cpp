@@ -10,7 +10,7 @@ SDL_Window* Graphics::g_main_window = nullptr;        //Window object pointer
 SDL_Renderer* Graphics::g_main_renderer = nullptr;    //Renderer object pointer
 SDL_Surface* Graphics::rm_sur = nullptr;              //Surface to load imgs
 std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded images
-std::vector<std::vector<SDL_Rect> > Graphics::rectMap(5,std::vector<SDL_Rect>(5));   //Map of rectangles used to display objects
+std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
 
 
 /* FUNCTIONS */
@@ -42,7 +42,7 @@ bool Graphics::Init() {
   }                                       
   g_main_renderer = SDL_CreateRenderer(g_main_window,-1,SDL_RENDERER_PRESENTVSYNC);     //Create renderer
   // Load all images into the array
-  for(int i = 0; i<5; i++)
+  for(int i = 0; i<NUMBER_OF_IMG; i++)
   {
       std::string x = "img/";
       x+=(((i+1)+'0'));
@@ -85,6 +85,15 @@ void Graphics::ShutDown() {
       arr[i] = nullptr;
     }
   }
+  for(int i = 0; i<GRID_SIZE_H; i++)  //Destroy all tiles
+  {
+    for(int j = 0; j<GRID_SIZE_W; j++)
+    {
+      pickMap[i][j]->~Tile();
+      pickMap[i][j] = nullptr;
+    }
+  }
+
   IMG_Quit();     //Quit SDL_IMG
   SDL_Quit();     //Quit SDL
 }
@@ -93,27 +102,27 @@ void Graphics::ClearScreen(SDL_Renderer* renderer){
   SDL_SetRenderDrawColor(renderer, Colors::BLACK.r, Colors::BLACK.g, Colors::BLACK.b,Colors::BLACK.a);
   SDL_RenderClear(renderer);
 }
-SDL_Rect rect = {0,0, 100, 100};
 
 /* Initialise grid */
 void Graphics::InitGrid(){
-  for(int i = 0; i<5; i++)
+  for(int i = 0; i<GRID_SIZE_H; i++)
   {
-    for(int j = 0; j<5; j++)
+    for(int j = 0; j<GRID_SIZE_W; j++)
     {
-      rectMap[i][j].x = i*100;
-      rectMap[i][j].y = j*100;
-      rectMap[i][j].h = 100;
-      rectMap[i][j].w = 100;
-		  SDL_RenderCopy(g_main_renderer, arr[pickMap[i][j]], NULL, &rectMap[i][j]);
+      rectMap[i][j].x = i*GRID_ELEMENT_W;
+      rectMap[i][j].y = j*GRID_ELEMENT_H;
+      rectMap[i][j].h = GRID_ELEMENT_H;
+      rectMap[i][j].w = GRID_ELEMENT_W;
+		  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->getRotation(),NULL,SDL_FLIP_HORIZONTAL);
     }
   }
 }
 
 /* Upadte grid */
-void Graphics::ChangeGrid(int i, int j, int pos)
+void Graphics::ChangeGrid(int i, int j, int pos, int rot)
 {
   Graphics::InitGrid();
-  pickMap[i][j] = pos;
-  SDL_RenderCopy(g_main_renderer, arr[pickMap[i][j]], NULL, &rectMap[i][j]);
+  pickMap[i][j]->setImgNum(pos);
+  pickMap[i][j]->setRotation(rot);
+  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->getRotation(),NULL,SDL_FLIP_HORIZONTAL);
 }

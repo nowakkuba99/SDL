@@ -1,15 +1,14 @@
 #include "pickTiles.h"
-
 /* Variables */
-std::vector<std::vector<int> > Tiles::pickMap(5,std::vector<int>(5));
+std::vector<std::vector<Tile*> > Tiles::pickMap(GRID_SIZE_H,std::vector<Tile*>(GRID_SIZE_W));
 void Tiles::InitTilesMap()
 {
     /* Initi map */
-    for(int row = 0; row< 5; row++)
+    for(int row = 0; row<GRID_SIZE_H; row++)
     {
-        for(int col = 0; col<5; col++)
+        for(int col = 0; col<GRID_SIZE_W; col++)
         {
-            Tiles::pickMap[row][col] = row;
+            Tiles::pickMap[row][col] = new Tile(row,0);
         }
     }
 }

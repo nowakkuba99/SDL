@@ -30,11 +30,12 @@ int main()
         case SDL_KEYDOWN: {
           if(event.key.keysym.scancode != SDL_SCANCODE_ESCAPE)
           {
-            int i = rand() % 4;
-            int j = rand() % 4;
-            int pos = rand() % 4;
+            int i = rand() % 5;
+            int j = rand() % 5;
+            int pos = rand() % 5;
+            int rot = 90;
             ClearScreen(g_main_renderer);
-            ChangeGrid(i,j,pos);
+            ChangeGrid(i,j,pos,rot);
             SDL_RenderPresent(g_main_renderer); 
           }
           else

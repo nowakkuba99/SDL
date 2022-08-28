@@ -19,6 +19,11 @@ namespace Graphics
     /* Define CONST variables */
     const int WINDOW_WIDTH = 500;     //Window size
     const int WINDOW_HEIGHT = 500;
+    const int NUMBER_OF_IMG = 5;
+    const int GRID_SIZE_H = 5;    //5x5
+    const int GRID_SIZE_W = 5;
+    const int GRID_ELEMENT_H = WINDOW_HEIGHT/GRID_SIZE_H;
+    const int GRID_ELEMENT_W = WINDOW_WIDTH/GRID_SIZE_W;
     /* Define EXTERN variables */
     extern SDL_Window* g_main_window;        //Window object pointer
     extern SDL_Renderer* g_main_renderer;    //Renderer object pointer
@@ -30,7 +35,7 @@ namespace Graphics
     void ShutDown();
     void ClearScreen(SDL_Renderer* renderer);
     void InitGrid();
-    void ChangeGrid(int i, int j, int pos);
+    void ChangeGrid(int i, int j, int pos, int rot);
 }
 
 #endif /* GRAPHICS */
