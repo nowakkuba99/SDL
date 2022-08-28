@@ -3,6 +3,7 @@
 
 /* Files */
 #include "graphics.h"
+#include "pickTiles.h"
 
 /* Namespace */
 using namespace Graphics;
@@ -18,6 +19,7 @@ int main()
   SDL_Event event;
   bool running = true;
   SDL_RenderClear(g_main_renderer);
+  Tiles::InitTilesMap();
   InitGrid();
   SDL_RenderPresent(g_main_renderer); 
   while(running)
@@ -28,11 +30,11 @@ int main()
         case SDL_KEYDOWN: {
           if(event.key.keysym.scancode != SDL_SCANCODE_ESCAPE)
           {
-            int i = 0;
-            int j = 0;
-            int pos = rand() % 4 + 1;
+            int i = rand() % 4;
+            int j = rand() % 4;
+            int pos = rand() % 4;
             ClearScreen(g_main_renderer);
-            ChangeGrid(i*100,j*100,pos);
+            ChangeGrid(i,j,pos);
             SDL_RenderPresent(g_main_renderer); 
           }
           else

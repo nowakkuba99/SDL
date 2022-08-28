@@ -1,7 +1,9 @@
 #include "graphics.h"
+#include "pickTiles.h"
 #include <iostream>
 
 using namespace std;
+using namespace Tiles;
 
 /* Variables declaration */
 SDL_Window* Graphics::g_main_window = nullptr;        //Window object pointer
@@ -95,13 +97,15 @@ SDL_Rect rect = {0,0, 100, 100};
 
 /* Initialise grid */
 void Graphics::InitGrid(){
-  for(int i = 0; i<500; i+=100)
+  for(int i = 0; i<5; i++)
   {
-    for(int j = 0; j<500; j+=100)
+    for(int j = 0; j<5; j++)
     {
-      rect.x = i;
-      rect.y = j;
-		  SDL_RenderCopy(g_main_renderer, arr[j/100], NULL, &rect);
+      rectMap[i][j].x = i*100;
+      rectMap[i][j].y = j*100;
+      rectMap[i][j].h = 100;
+      rectMap[i][j].w = 100;
+		  SDL_RenderCopy(g_main_renderer, arr[pickMap[i][j]], NULL, &rectMap[i][j]);
     }
   }
 }
@@ -109,7 +113,7 @@ void Graphics::InitGrid(){
 /* Upadte grid */
 void Graphics::ChangeGrid(int i, int j, int pos)
 {
-  rect.x = i;
-  rect.y = j;
-  SDL_RenderCopy(g_main_renderer, arr[pos], NULL, &rect);
+  Graphics::InitGrid();
+  pickMap[i][j] = pos;
+  SDL_RenderCopy(g_main_renderer, arr[pickMap[i][j]], NULL, &rectMap[i][j]);
 }
