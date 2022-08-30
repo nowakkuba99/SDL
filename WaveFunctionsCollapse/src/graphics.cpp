@@ -6,11 +6,15 @@ using namespace std;
 using namespace Tiles;
 
 /* Variables declaration */
+int Graphics::NUMBER_OF_IMG_WITH_ROTATED = 2;
 SDL_Window* Graphics::g_main_window = nullptr;        //Window object pointer
 SDL_Renderer* Graphics::g_main_renderer = nullptr;    //Renderer object pointer
 SDL_Surface* Graphics::rm_sur = nullptr;              //Surface to load imgs
 std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded images
 std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
+std::vector<image*> Graphics::imgArr;
+std::vector<std::vector<char>> Graphics::boundArr = {{'B','A','B','A'},{'A','B','B','A'}};
+std::set<std::vector<char>> Graphics::boundSet;
 
 
 /* FUNCTIONS */
@@ -23,7 +27,7 @@ bool Graphics::Init() {
     return EXIT_FAILURE;
   }
 
-  if (IMG_Init(IMG_INIT_JPG) == 0) {          //Init SDL image to load JPGs
+  if (IMG_Init(IMG_INIT_PNG) == 0) {          //Init SDL image to load JPGs
 		std::cout << "Error SDL2_image Initialization"<<std::endl;
 	}
 
@@ -45,8 +49,8 @@ bool Graphics::Init() {
   for(int i = 0; i<NUMBER_OF_IMG; i++)
   {
       std::string x = "img/";
-      x+=(((i+1)+'0'));
-      x+=".jpeg";
+      x+=(((i)+'0'));
+      x+=".png";
       rm_sur = IMG_Load(x.c_str());     //Load imgs into surface
       if (rm_sur == NULL) {
         std::cout << "Error loading image: " << IMG_GetError();
@@ -57,7 +61,8 @@ bool Graphics::Init() {
         std::cout << "Error creating texture";
         return false;
       }
-
+      imgArr.push_back(new image(i,0,boundArr[i]));
+      Graphics::boundSet.insert(boundArr[i]);
       SDL_FreeSurface(rm_sur);    //Free surface for next imgs
       rm_sur = nullptr;
   }
@@ -93,6 +98,14 @@ void Graphics::ShutDown() {
       pickMap[i][j] = nullptr;
     }
   }
+  for(int i = 0; i<imgArr.size(); i++)
+  {
+    if(imgArr[i] != nullptr)
+    {
+      imgArr[i]->~image();     //Destroy all textures
+      imgArr[i] = nullptr;
+    }
+  }
 
   IMG_Quit();     //Quit SDL_IMG
   SDL_Quit();     //Quit SDL
@@ -113,16 +126,41 @@ void Graphics::InitGrid(){
       rectMap[i][j].y = j*GRID_ELEMENT_H;
       rectMap[i][j].h = GRID_ELEMENT_H;
       rectMap[i][j].w = GRID_ELEMENT_W;
-		  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->getRotation(),NULL,SDL_FLIP_HORIZONTAL);
+      if(pickMap[i][j]->imageObj != nullptr)
+		    SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->imageObj->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->imageObj->getRotation(),NULL,SDL_FLIP_NONE);
     }
   }
 }
 
 /* Upadte grid */
-void Graphics::ChangeGrid(int i, int j, int pos, int rot)
+void Graphics::ChangeGrid(int i, int j, int imgNum)
 {
   Graphics::InitGrid();
-  pickMap[i][j]->setImgNum(pos);
-  pickMap[i][j]->setRotation(rot);
-  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->getRotation(),NULL,SDL_FLIP_HORIZONTAL);
+  pickMap[i][j]->imageObj=Graphics::imgArr[imgNum];
+  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->imageObj->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->imageObj->getRotation(),NULL,SDL_FLIP_NONE);
+}
+
+void Graphics::FindRotations()
+{
+  for(int i = 0; i<NUMBER_OF_IMG; i++)  //For each image not rotated
+  {
+    for(int j = 0; j<3; j++)    //Check 3 possible rotations
+    {
+      std::vector<char> curr;                     //Create new rotated bound
+      curr.push_back(Graphics::boundArr[i][1+j]);
+      curr.push_back(Graphics::boundArr[i][(2+j)%4]);
+      curr.push_back(Graphics::boundArr[i][(3+j)%4]);
+      curr.push_back(Graphics::boundArr[i][(j)]);
+
+      if(Graphics::boundSet.find(curr) == Graphics::boundSet.end()) //Check if it is new
+      {
+        Graphics::boundSet.insert(curr);          //If so -> Add
+        Graphics::boundArr.push_back(curr);
+        Graphics::imgArr.push_back(new image(i,(j+1)*90,curr));
+        NUMBER_OF_IMG_WITH_ROTATED++;
+      }
+
+    }
+    
+  }
 }

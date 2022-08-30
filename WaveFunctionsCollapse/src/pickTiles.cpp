@@ -8,7 +8,7 @@ void Tiles::InitTilesMap()
     {
         for(int col = 0; col<GRID_SIZE_W; col++)
         {
-            Tiles::pickMap[row][col] = new Tile(row,0);
+            Tiles::pickMap[row][col] = new Tile();
         }
     }
 }

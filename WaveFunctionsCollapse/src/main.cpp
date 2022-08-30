@@ -11,6 +11,7 @@ using namespace Graphics;
 /* Main function */
 int main()
 {
+  int pos = 0;
   if(Init() == false)
   {
     ShutDown();
@@ -19,6 +20,7 @@ int main()
   SDL_Event event;
   bool running = true;
   SDL_RenderClear(g_main_renderer);
+  Graphics::FindRotations();
   Tiles::InitTilesMap();
   InitGrid();
   SDL_RenderPresent(g_main_renderer); 
@@ -30,12 +32,15 @@ int main()
         case SDL_KEYDOWN: {
           if(event.key.keysym.scancode != SDL_SCANCODE_ESCAPE)
           {
-            int i = rand() % 5;
-            int j = rand() % 5;
-            int pos = rand() % 5;
-            int rot = 90;
+            //int i = rand() % 5;
+            //int j = rand() % 5;
+            //int pos = rand() % 2;
+            int i = 0, j = 0;
+            
             ClearScreen(g_main_renderer);
-            ChangeGrid(i,j,pos,rot);
+            ChangeGrid(i,j,pos);
+            if(pos<NUMBER_OF_IMG_WITH_ROTATED-1)
+              pos++;
             SDL_RenderPresent(g_main_renderer); 
           }
           else
