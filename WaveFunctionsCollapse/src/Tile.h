@@ -2,33 +2,20 @@
 #define TILE_H
 
 #include <vector>
+#include "image.h"
+
 class Tile
 {
-private:
-    /* data */
-    int imgNumber;
-    int rotation;
-    int numOfPosNeig;
-    std::vector<int> PosNeig;
 public:
+    /* data */
+    image* imageObj = nullptr;
+    int numOfPosNeig;
+    std::vector<image*> ListOfPossNeigh;
+    
     Tile();
-    Tile(int num, int rot): imgNumber(num), rotation(rot){};
-    ~Tile();
-    int getImgNum()
+    Tile(image* img): imageObj(img){};
+    ~Tile()
     {
-        return imgNumber;
-    }
-    void setImgNum(int num)
-    {
-        imgNumber = num;
-    }
-    int getRotation()
-    {
-        return rotation;
-    }
-    void setRotation(int rot)
-    {
-        rotation = rot;
-    } 
+    }; 
 };
 #endif /* TILE */

@@ -2,7 +2,3 @@
 Tile::Tile(/* args */)
 {
 }
-
-Tile::~Tile()
-{
-}
