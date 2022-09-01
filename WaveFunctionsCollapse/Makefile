@@ -4,7 +4,7 @@ CC = g++
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_NAME = play
 INCLUDE_PATHS = -Iinclude
-COMPILER_FLAGS = -std=c++11 -Wall -O0 -g
+COMPILER_FLAGS = -std=c++17 -Wall -O0 -g
 FRAMEWORK_PATH = -F/Library/Frameworks -framework SDL2 -framework SDL2_image
 
 all:
