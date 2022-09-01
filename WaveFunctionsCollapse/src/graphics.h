@@ -34,14 +34,14 @@ namespace Graphics
     extern std::vector<SDL_Texture*> arr;    //Array of textures cointaing loaded images
     extern std::vector<image*> imgArr;
     extern std::vector<std::vector<SDL_Rect> > rectMap;   //Map of rectangles used to display objects
-    extern std::vector<std::vector<char>> boundArr;
-    extern std::set<std::vector<char>> boundSet;
+    extern std::vector<std::vector<std::string>> boundArr;
+    extern std::set<std::vector<std::string>> boundSet;
     /* Define functions */
     bool Init();
     void ShutDown();
     void ClearScreen(SDL_Renderer* renderer);
     void InitGrid();
-    void ChangeGrid(int i, int j, int imgNum);
+    void ChangeGrid(int i, int j);
     void FindRotations();
 }
 

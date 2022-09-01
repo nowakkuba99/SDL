@@ -1,6 +1,7 @@
 #include "graphics.h"
 #include "pickTiles.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 using namespace Tiles;
@@ -13,8 +14,8 @@ SDL_Surface* Graphics::rm_sur = nullptr;              //Surface to load imgs
 std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded images
 std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
 std::vector<image*> Graphics::imgArr;
-std::vector<std::vector<char>> Graphics::boundArr = {{'B','A','B','A'},{'A','B','B','A'}};
-std::set<std::vector<char>> Graphics::boundSet;
+std::vector<std::vector<string>> Graphics::boundArr = {{"B","A","B","A"},{"A","B","B","A"}};
+std::set<std::vector<string>> Graphics::boundSet;
 
 
 /* FUNCTIONS */
@@ -133,10 +134,10 @@ void Graphics::InitGrid(){
 }
 
 /* Upadte grid */
-void Graphics::ChangeGrid(int i, int j, int imgNum)
+void Graphics::ChangeGrid(int i, int j)
 {
   Graphics::InitGrid();
-  pickMap[i][j]->imageObj=Graphics::imgArr[imgNum];
+  //pickMap[i][j]->imageObj=Graphics::imgArr[imgNum];
   SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->imageObj->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->imageObj->getRotation(),NULL,SDL_FLIP_NONE);
 }
 
@@ -146,7 +147,7 @@ void Graphics::FindRotations()
   {
     for(int j = 0; j<3; j++)    //Check 3 possible rotations
     {
-      std::vector<char> curr;                     //Create new rotated bound
+      std::vector<std::string> curr;                     //Create new rotated bound
       curr.push_back(Graphics::boundArr[i][1+j]);
       curr.push_back(Graphics::boundArr[i][(2+j)%4]);
       curr.push_back(Graphics::boundArr[i][(3+j)%4]);
