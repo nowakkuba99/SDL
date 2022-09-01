@@ -8,14 +8,19 @@ class Tile
 {
 public:
     /* data */
+    int row;
+    int col;
+    bool collapsed = false;
     image* imageObj = nullptr;
-    int numOfPosNeig;
-    std::vector<image*> ListOfPossNeigh;
-    
+    int numOfPosImgs;
+    std::vector<image*> ListOfPossImgs;
+    /* Functions */
     Tile();
+    Tile(int r,int c): row(r), col(c){};
     Tile(image* img): imageObj(img){};
     ~Tile()
     {
+        imageObj = nullptr;
     }; 
 };
 #endif /* TILE */
