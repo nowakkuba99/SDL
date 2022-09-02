@@ -7,14 +7,14 @@ using namespace std;
 using namespace Tiles;
 
 /* Variables declaration */
-int Graphics::NUMBER_OF_IMG_WITH_ROTATED = 2;
+int Graphics::NUMBER_OF_IMG_WITH_ROTATED = 3;
 SDL_Window* Graphics::g_main_window = nullptr;        //Window object pointer
 SDL_Renderer* Graphics::g_main_renderer = nullptr;    //Renderer object pointer
 SDL_Surface* Graphics::rm_sur = nullptr;              //Surface to load imgs
 std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded images
 std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
 std::vector<image*> Graphics::imgArr;
-std::vector<std::vector<string>> Graphics::boundArr = {{"B","A","B","A"},{"A","B","B","A"}};
+std::vector<std::vector<string>> Graphics::boundArr = {{"ABA","AAA","ABA","AAA"},{"AAA","ABA","ABA","AAA"},{"ABA","AAA","ABA","ABA"}};
 std::set<std::vector<string>> Graphics::boundSet;
 
 
@@ -123,8 +123,8 @@ void Graphics::InitGrid(){
   {
     for(int j = 0; j<GRID_SIZE_W; j++)
     {
-      rectMap[i][j].x = i*GRID_ELEMENT_W;
-      rectMap[i][j].y = j*GRID_ELEMENT_H;
+      rectMap[i][j].y = i*GRID_ELEMENT_W;
+      rectMap[i][j].x = j*GRID_ELEMENT_H;
       rectMap[i][j].h = GRID_ELEMENT_H;
       rectMap[i][j].w = GRID_ELEMENT_W;
       if(pickMap[i][j]->imageObj != nullptr)
@@ -133,12 +133,20 @@ void Graphics::InitGrid(){
   }
 }
 
-/* Upadte grid */
-void Graphics::ChangeGrid(int i, int j)
+/* 
+  Desc: Function to updte grid at the given row and col
+  Params: int row, int col
+*/
+void Graphics::DisplayGrid()
 {
-  Graphics::InitGrid();
-  //pickMap[i][j]->imageObj=Graphics::imgArr[imgNum];
-  SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->imageObj->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->imageObj->getRotation(),NULL,SDL_FLIP_NONE);
+  for(int i = 0; i<GRID_SIZE_H; i++)
+  {
+    for(int j = 0; j<GRID_SIZE_W; j++)
+    {
+      if(pickMap[i][j]->imageObj != nullptr)
+        SDL_RenderCopyEx(g_main_renderer, arr[pickMap[i][j]->imageObj->getImgNum()], NULL, &rectMap[i][j],pickMap[i][j]->imageObj->getRotation(),NULL,SDL_FLIP_NONE);
+    }
+  }
 }
 
 void Graphics::FindRotations()
@@ -157,8 +165,9 @@ void Graphics::FindRotations()
       {
         Graphics::boundSet.insert(curr);          //If so -> Add
         Graphics::boundArr.push_back(curr);
-        Graphics::imgArr.push_back(new image(i,(j+1)*90,curr));
+        Graphics::imgArr.push_back(new image(i,-(j+1)*90,curr));
         NUMBER_OF_IMG_WITH_ROTATED++;
+        
       }
 
     }
