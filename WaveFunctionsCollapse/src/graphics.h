@@ -21,7 +21,7 @@ namespace Graphics
     /* Define CONST variables */
     const int WINDOW_WIDTH = 500;     //Window size
     const int WINDOW_HEIGHT = 500;
-    const int NUMBER_OF_IMG = 2;
+    const int NUMBER_OF_IMG = 3;
     extern int NUMBER_OF_IMG_WITH_ROTATED;
     const int GRID_SIZE_H = 5;    //5x5
     const int GRID_SIZE_W = 5;
@@ -41,7 +41,7 @@ namespace Graphics
     void ShutDown();
     void ClearScreen(SDL_Renderer* renderer);
     void InitGrid();
-    void ChangeGrid(int i, int j);
+    void DisplayGrid();
     void FindRotations();
 }
 
