@@ -2,6 +2,7 @@
 #define PICKTILES_H
 
 #include <vector>
+#include <set>
 #include "Tile.h"
 #include "graphics.h"
 const int GRID_SIZE_H = 5;    //5x5
@@ -11,7 +12,8 @@ namespace Tiles
     /* Variables */
     extern std::vector<std::vector<Tile*> > pickMap;
     extern std::vector<Tile*> ListOfTilesToCollapse;
-    const std::vector<std::pair<int,int> > dirs = {{0,1},{-1,0},{0,-1},{1,0}};
+    extern std::set<std::pair<int,int> > visitedSet;
+    const std::vector<std::pair<int,int> > dirs = {{0,1},{1,0},{0,-1},{-1,0}};
     /* Functions */
     void InitTilesMap();
     void PickFirstTile();
