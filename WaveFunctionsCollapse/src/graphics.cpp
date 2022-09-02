@@ -95,7 +95,7 @@ void Graphics::ShutDown() {
   {
     for(int j = 0; j<GRID_SIZE_W; j++)
     {
-      pickMap[i][j]->~Tile();
+      delete pickMap[i][j];
       pickMap[i][j] = nullptr;
     }
   }
@@ -103,7 +103,7 @@ void Graphics::ShutDown() {
   {
     if(imgArr[i] != nullptr)
     {
-      imgArr[i]->~image();     //Destroy all textures
+      delete imgArr[i];     //Destroy all textures
       imgArr[i] = nullptr;
     }
   }
