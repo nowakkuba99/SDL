@@ -50,6 +50,8 @@ bool Graphics::Init() {
   for(int i = 0; i<NUMBER_OF_IMG; i++)
   {
       std::string x = "img/";
+      std::string path = "lines/";
+      x+= path;
       x+=(((i)+'0'));
       x+=".png";
       rm_sur = IMG_Load(x.c_str());     //Load imgs into surface

@@ -23,8 +23,8 @@ namespace Graphics
     const int WINDOW_HEIGHT = 500;
     const int NUMBER_OF_IMG = 3;
     extern int NUMBER_OF_IMG_WITH_ROTATED;
-    const int GRID_SIZE_H = 5;    //5x5
-    const int GRID_SIZE_W = 5;
+    const int GRID_SIZE_H = 10;    //5x5
+    const int GRID_SIZE_W = 10;
     const int GRID_ELEMENT_H = WINDOW_HEIGHT/GRID_SIZE_H;
     const int GRID_ELEMENT_W = WINDOW_WIDTH/GRID_SIZE_W;
     /* Define EXTERN variables */

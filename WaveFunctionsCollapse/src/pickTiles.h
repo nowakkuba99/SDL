@@ -5,8 +5,8 @@
 #include <set>
 #include "Tile.h"
 #include "graphics.h"
-const int GRID_SIZE_H = 5;    //5x5
-const int GRID_SIZE_W = 5;
+const int GRID_SIZE_H = 10;    //5x5
+const int GRID_SIZE_W = 10;
 namespace Tiles
 {
     /* Variables */
