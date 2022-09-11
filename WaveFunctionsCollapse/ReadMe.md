@@ -7,9 +7,28 @@ https://github.com/mxgmn/WaveFunctionCollapse
 
 ## First working result - no backtracking
 Used tiles:  
-![Tile0](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/0.png "Tile 0")
-![Tile1](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/1.png "Tile 1")
-![Tile2](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/0.png "Tile 2")  
+![Tile0](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/lines/0.png "Tile 0")
+![Tile1](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/lines/1.png "Tile 1")
+![Tile2](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/lines/2.png "Tile 2")  
 After loading tiles with boundaries, algorithm computes all possible rotations. 
 Example result for 5x5 grid:
 ![Result](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/results/V1%20-%20No%20backtracking/result.png "Result")
+## Second example - no backtracking
+Used tiles:  
+![Tile0](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/0.png "Tile 0")
+![Tile1](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/1.png "Tile 1")
+![Tile2](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/2.png "Tile 2")  
+![Tile3](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/3.png "Tile 2")  
+![Tile4](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/4.png "Tile 2")  
+![Tile5](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/5.png "Tile 2")  
+![Tile6](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/6.png "Tile 2")  
+![Tile7](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/7.png "Tile 2")  
+![Tile8](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/8.png "Tile 2")  
+![Tile9](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/9.png "Tile 2")  
+![Tile10](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/10.png "Tile 2")  
+![Tile11](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/11.png "Tile 2")  
+![Tile12](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/12.png "Tile 2")  
+![Tile13](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/13.png "Tile 2")  
+After loading tiles with boundaries, algorithm computes all possible rotations. 
+Example result for 10x10 grid:
+![Result](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/results/V1%20-%20No%20backtracking/circuit result.png "Result")
