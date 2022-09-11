@@ -7,14 +7,17 @@ using namespace std;
 using namespace Tiles;
 
 /* Variables declaration */
-int Graphics::NUMBER_OF_IMG_WITH_ROTATED = 3;
+int Graphics::NUMBER_OF_IMG_WITH_ROTATED = 14;
 SDL_Window* Graphics::g_main_window = nullptr;        //Window object pointer
 SDL_Renderer* Graphics::g_main_renderer = nullptr;    //Renderer object pointer
 SDL_Surface* Graphics::rm_sur = nullptr;              //Surface to load imgs
 std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded images
 std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
 std::vector<image*> Graphics::imgArr;
-std::vector<std::vector<string>> Graphics::boundArr = {{"ABA","AAA","ABA","AAA"},{"AAA","ABA","ABA","AAA"},{"ABA","AAA","ABA","ABA"}};
+//std::vector<std::vector<string>> Graphics::boundArr = {{"ABA","AAA","ABA","AAA"},{"AAA","ABA","ABA","AAA"},{"ABA","AAA","ABA","ABA"}};
+std::vector<std::vector<string>> Graphics::boundArr = {{"ACA","ABA","ACA","ABA"}, {"DDD","DDD","DDD","DDD"}, {"AAD","ABA","AAD","DDD"}, {"AAD","AAA","AAA","AAD"}, {"ABA","ABA","ABA","ABA"},
+{"AAA","ABA","ABA","AAA"},{"AAA","AAA","AAA","AAA"}, {"ABA","AAA","ABA","ABA"}, {"AAA","ABA","AAA","ABA"}, {"AAA","ACA","AAA","ABA"},
+{"AAA","ABA","ABA","AAA"}, {"ABA","AAA","ABA","AAA"}, {"AAA","ABA","AAA","AAA"}, {"ACA","AAA","ACA","AAA"}};
 std::set<std::vector<string>> Graphics::boundSet;
 
 
@@ -50,9 +53,11 @@ bool Graphics::Init() {
   for(int i = 0; i<NUMBER_OF_IMG; i++)
   {
       std::string x = "img/";
-      std::string path = "lines/";
+      //std::string path = "lines/";
+      std::string path = "Circuit/";
       x+= path;
-      x+=(((i)+'0'));
+      //x+=(((i)+'0'));
+      x += to_string(i);
       x+=".png";
       rm_sur = IMG_Load(x.c_str());     //Load imgs into surface
       if (rm_sur == NULL) {

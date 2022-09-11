@@ -21,7 +21,7 @@ namespace Graphics
     /* Define CONST variables */
     const int WINDOW_WIDTH = 500;     //Window size
     const int WINDOW_HEIGHT = 500;
-    const int NUMBER_OF_IMG = 3;
+    const int NUMBER_OF_IMG = 14;
     extern int NUMBER_OF_IMG_WITH_ROTATED;
     const int GRID_SIZE_H = 10;    //5x5
     const int GRID_SIZE_W = 10;
