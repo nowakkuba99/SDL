@@ -1,5 +1,6 @@
 #include "pickTiles.h"
 #include <iostream>
+#include <algorithm>
 /* Variables */
 std::vector<std::vector<Tile*> > Tiles::pickMap(GRID_SIZE_H,std::vector<Tile*>(GRID_SIZE_W));
 std::vector<Tile*> Tiles::ListOfTilesToCollapse;
@@ -100,6 +101,10 @@ void Tiles::UpdateListOfPoss(int row, int col)
     curr1[1] = curr[3];
     curr1[2] = curr[0];
     curr1[3] = curr[1];
+    for(auto  &bound: curr1)
+    {
+        std::reverse(bound.begin(), bound.end());   //Reverse boundaries in order to cope with not symetrical tiles
+    }
     curr = curr1;
     //Now curr is the bound arr e.g. ["-","ABBA","-","ABAB"]
     Tiles::pickMap[row][col]->ListOfPossImgs.clear();   //Clear the vector to do update

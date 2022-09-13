@@ -15,7 +15,7 @@ std::vector<SDL_Texture*> Graphics::arr;    //Array of textures cointaing loaded
 std::vector<std::vector<SDL_Rect> > Graphics::rectMap(GRID_SIZE_H,std::vector<SDL_Rect>(GRID_SIZE_W));   //Map of rectangles used to display objects
 std::vector<image*> Graphics::imgArr;
 //std::vector<std::vector<string>> Graphics::boundArr = {{"ABA","AAA","ABA","AAA"},{"AAA","ABA","ABA","AAA"},{"ABA","AAA","ABA","ABA"}};
-std::vector<std::vector<string>> Graphics::boundArr = {{"ACA","ABA","ACA","ABA"}, {"DDD","DDD","DDD","DDD"}, {"AAD","ABA","AAD","DDD"}, {"AAD","AAA","AAA","AAD"}, {"ABA","ABA","ABA","ABA"},
+std::vector<std::vector<string>> Graphics::boundArr = {{"ACA","ABA","ACA","ABA"}, {"DDD","DDD","DDD","DDD"}, {"DAA","ABA","AAD","DDD"}, {"DAA","AAA","AAA","AAD"}, {"ABA","ABA","ABA","ABA"},
 {"AAA","ABA","ABA","AAA"},{"AAA","AAA","AAA","AAA"}, {"ABA","AAA","ABA","ABA"}, {"AAA","ABA","AAA","ABA"}, {"AAA","ACA","AAA","ABA"},
 {"AAA","ABA","ABA","AAA"}, {"ABA","AAA","ABA","AAA"}, {"AAA","ABA","AAA","AAA"}, {"ACA","AAA","ACA","AAA"}};
 std::set<std::vector<string>> Graphics::boundSet;
