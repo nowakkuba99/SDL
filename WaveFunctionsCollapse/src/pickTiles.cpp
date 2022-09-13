@@ -101,6 +101,7 @@ void Tiles::UpdateListOfPoss(int row, int col)
     curr1[1] = curr[3];
     curr1[2] = curr[0];
     curr1[3] = curr[1];
+    //For all 4 boundaries
     for(auto  &bound: curr1)
     {
         std::reverse(bound.begin(), bound.end());   //Reverse boundaries in order to cope with not symetrical tiles
