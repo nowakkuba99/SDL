@@ -5,6 +5,9 @@ https://en.wikipedia.org/wiki/Wave_function_collapse
 And visit GitHub repo about it:
 https://github.com/mxgmn/WaveFunctionCollapse
 
+## Result demo - more information below
+![GIF animation of WFC algorithm](results/WithBacktracking/result.gif)  
+
 ## First working result - no backtracking
 Used tiles:  
 ![Tile0](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/lines/0.png "Tile 0")
