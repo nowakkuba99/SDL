@@ -1,10 +1,6 @@
 #include "pickTiles.h"
 #include <iostream>
 #include <algorithm>
-#include <stdio.h>
-#include <time.h>
-#include <unistd.h>
-
 /* Variables */
 std::vector<std::vector<Tile*> > Tiles::pickMap(GRID_SIZE_H,std::vector<Tile*>(GRID_SIZE_W));
 std::vector<Tile*> Tiles::ListOfTilesToCollapse;
