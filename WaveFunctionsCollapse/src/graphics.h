@@ -19,12 +19,12 @@ namespace Colors {
 namespace Graphics
 {
     /* Define CONST variables */
-    const int WINDOW_WIDTH = 500;     //Window size
-    const int WINDOW_HEIGHT = 500;
+    const int WINDOW_WIDTH = 800;     //Window size
+    const int WINDOW_HEIGHT = 800;
     const int NUMBER_OF_IMG = 14;
     extern int NUMBER_OF_IMG_WITH_ROTATED;
-    const int GRID_SIZE_H = 10;    //5x5
-    const int GRID_SIZE_W = 10;
+    const int GRID_SIZE_H = 40;    //5x5
+    const int GRID_SIZE_W = 40;
     const int GRID_ELEMENT_H = WINDOW_HEIGHT/GRID_SIZE_H;
     const int GRID_ELEMENT_W = WINDOW_WIDTH/GRID_SIZE_W;
     /* Define EXTERN variables */
