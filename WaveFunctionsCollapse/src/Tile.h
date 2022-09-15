@@ -16,6 +16,7 @@ public:
     int numOfPosImgs;
     std::vector<image*> ListOfPossImgs;
     std::unordered_set<image*> SetOfTriedImgs;
+    std::unordered_set<Tile*> ListOfAddedNeighbours;
     /* Functions */
     Tile();
     Tile(int r,int c): row(r), col(c){};
