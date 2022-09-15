@@ -34,7 +34,7 @@ Example result for 10x10 grid:
 ![Result](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/results/V1%20-%20No%20backtracking/circuitResult.png "Result")
 
 ## Third example - with implemented backtracking
-Backtracking done recursivly by solve function
+Backtracking done recursivly by solve function  
 Used tiles:  
 ![Tile0](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/0.png "Tile 0")
 ![Tile1](https://github.com/nowakkuba99/SDL/blob/main/WaveFunctionsCollapse/img/Circuit/1.png "Tile 1")
