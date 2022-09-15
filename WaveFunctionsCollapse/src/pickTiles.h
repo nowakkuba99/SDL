@@ -5,8 +5,8 @@
 #include <set>
 #include "Tile.h"
 #include "graphics.h"
-const int GRID_SIZE_H = 10;    //5x5
-const int GRID_SIZE_W = 10;
+const int GRID_SIZE_H = 40;    //5x5
+const int GRID_SIZE_W = 40;
 namespace Tiles
 {
     /* Variables */
@@ -21,5 +21,7 @@ namespace Tiles
     bool InBound(int row, int col);
     void UpdateListOfPoss(int row, int col);
     void CountPossForListOfTilesToCollapse();
+    bool Solve(std::vector<Tile*> &ListOfTilesToCollapse);
+    void DeleteFromListOfTilesToCollapse(int row, int col);
 }
 #endif /* PICKTILES */
