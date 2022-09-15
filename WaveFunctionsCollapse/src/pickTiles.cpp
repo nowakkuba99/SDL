@@ -138,6 +138,18 @@ void Tiles::UpdateListOfPoss(int row, int col)
             }
         }
     }
+    //Check if some of matching values are not in the TriedSet
+    int len = Tiles::pickMap[row][col]->ListOfPossImgs.size();
+    int del = 0;
+    for(int i = 0; i<len; i++)   //For all poss
+    {
+        if(Tiles::pickMap[row][col]->SetOfTriedImgs.find(Tiles::pickMap[row][col]->ListOfPossImgs[i]) != Tiles::pickMap[row][col]->SetOfTriedImgs.end())    //If possibility is already tried
+        {
+           Tiles::pickMap[row][col]->ListOfPossImgs.erase(Tiles::pickMap[row][col]->ListOfPossImgs.begin()+i-del);     //Delete
+            del++;
+        }
+    }
+
     //At last update num
     Tiles::pickMap[row][col]->numOfPosImgs = Tiles::pickMap[row][col]->ListOfPossImgs.size();
 }
