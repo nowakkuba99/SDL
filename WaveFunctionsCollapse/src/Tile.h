@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include <vector>
+#include<unordered_set>
 #include "image.h"
 
 class Tile
@@ -14,6 +15,7 @@ public:
     image* imageObj = nullptr;
     int numOfPosImgs;
     std::vector<image*> ListOfPossImgs;
+    std::unordered_set<image*> SetOfTriedImgs;
     /* Functions */
     Tile();
     Tile(int r,int c): row(r), col(c){};
