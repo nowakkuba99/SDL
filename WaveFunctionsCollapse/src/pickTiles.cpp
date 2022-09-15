@@ -150,6 +150,38 @@ void Tiles::UpdateListOfPoss(int row, int col)
             del++;
         }
     }
+    //If one of neighbours is img 3 - > delete img 3 from poss
+    bool meet = false;
+    for(const auto&[rowChange, colChange]: dirs)    //For all dirs
+    {
+        int newRow = row + rowChange;
+        int newCol = col + colChange;
+        if(Tiles::InBound(newRow,newCol))       //Check if in bound
+        {
+            if(Tiles::pickMap[newRow][newCol]->collapsed == true)      //Check if collapsed
+            {
+                if(Tiles::pickMap[newRow][newCol]->imageObj->getImgNum() == 3)
+                {
+                    meet = true;
+                    break;
+                }
+            }
+        }
+    }
+    if(meet)
+    {
+        int len = Tiles::pickMap[row][col]->ListOfPossImgs.size();
+        int del = 0;
+        for(int i = 0; i<len; i++)   //For all poss
+        {
+            if(Tiles::pickMap[row][col]->ListOfPossImgs[i]->getImgNum() == 3)    //If possibility is already tried
+            {
+            Tiles::pickMap[row][col]->ListOfPossImgs.erase(Tiles::pickMap[row][col]->ListOfPossImgs.begin()+i-del);     //Delete
+                del++;
+            }
+        }
+    }
+
     //At last update num
     Tiles::pickMap[row][col]->numOfPosImgs = Tiles::pickMap[row][col]->ListOfPossImgs.size();
 }
