@@ -6,3 +6,10 @@ sdl2_template/.vscode/targets.log
 sdl2_template/.vscode/settings.json
 sdl2_template/.vscode/dryrun.log
 sdl2_template/.vscode/configurationCache.log
+openGL/template/build/debug/play
+openGL/template/build/debug/play.dSYM/Contents/Info.plist
+openGL/template/build/debug/play.dSYM/Contents/Resources/DWARF/play
+openGL/template/include/GLFW
+openGL/template/include/SDL2
+openGL/template/include/SDL2_image
+openGL/template/library/lib
