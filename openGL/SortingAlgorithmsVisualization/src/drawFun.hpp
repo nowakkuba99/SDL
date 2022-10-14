@@ -3,8 +3,11 @@
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
 
+#include "settings.hpp"
+
 namespace draw
 {
+    //const float constWidth = 2.0/50/2;
     /*Rectangle class*/
     class Rectangle
     {
@@ -16,6 +19,7 @@ namespace draw
         /* Constructors */
         Rectangle(GLdouble _x1, GLdouble _y1, GLdouble _x2,GLdouble _y2): x1(_x1), y1(_y1), x2(_x2), y2(_y2) {};
         Rectangle(GLdouble _x1, GLdouble height, GLdouble width);
+        Rectangle(GLdouble _x1, GLdouble height);
         Rectangle(GLdouble _x1, GLdouble _y1, GLdouble _x2,GLdouble _y2, GLint r, GLint g, GLint b): x1(_x1), y1(_y1), x2(_x2), y2(_y2), red(r), green(g), blue(b) {};
         /* Destructor */ 
         ~Rectangle() {};
