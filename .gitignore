@@ -13,3 +13,5 @@ openGL/template/include/GLFW
 openGL/template/include/SDL2
 openGL/template/include/SDL2_image
 openGL/template/library/lib
+openGL/SortingAlgorithmsVisualization/build/debug/play
+openGL/SortingAlgorithmsVisualization/build/debug/play.dSYM/Contents/Resources/DWARF/play
