@@ -26,6 +26,11 @@ namespace sort
     */
     void renderChoosenFunction(GLFWwindow* window, std::shared_ptr<draw::Rectangle> index1, std::shared_ptr<draw::Rectangle> index2);
     /*
+    Function which displays all rectangles with its height progressivly turning green
+    Arguments: Array of shared_ptr<Rectangle>, window 
+    */
+    void endAnimation(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, GLFWwindow* window);
+    /*
     Function used to swap two objects position - changes the height of objects
     Arguments: References to two pointers of objects to swap height
     */
@@ -47,6 +52,12 @@ namespace sort
     void quickSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
     void quickSortHelper(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int low, int high, int &swaps, int &comps);
     int partition(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int low, int high, int &swaps, int &comps);
+
+    /*
+    Function: Selection sort
+    Time Complexity O(n^2)
+    */
+    void selectionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
 }
 
 #endif /* C1C51E18_B531_4C0E_B78E_FC516D0147DC */

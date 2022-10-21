@@ -9,15 +9,7 @@ bool sort::mainSortFun(GLFWwindow* window, void (*sortFun) (std::vector<std::sha
     renderFunction(RectVec,window);
     sortFun(RectVec,window,swaps,comps);    //Visualize the sorting
     renderFunction(RectVec,window);
-    /*
-    if(sortCheck(RectVec) == true)
-    {
-        sortEndAnimation(RectVec,window);
-        return true;
-    }
-    else
-        return false;
-    */
+    endAnimation(RectVec,window);
     return true;
 }
 /*
@@ -46,7 +38,29 @@ void sort::renderChoosenFunction(GLFWwindow* window, std::shared_ptr<draw::Recta
     index1.get()->Draw();
     index2.get()->Draw();
 }
+/*
+Function which displays all rectangles with its height progressivly turning green
+Arguments: Array of shared_ptr<Rectangle>, window 
+*/
+void sort::endAnimation(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, GLFWwindow* window)
+{
+        /* Render here */
+        for(const auto &rectToChangeColor: RectVec)
+        {
+            rectToChangeColor.get()->ChangeColor(50,205,50);
+            glClear(GL_COLOR_BUFFER_BIT);
+            for(const auto & rect: RectVec)
+            {
+                rect.get()->Draw();
+            }
+            /* Swap front and back buffers */
+            glfwSwapBuffers(window);
 
+            /* Poll for and process events */
+            glfwPollEvents();
+            usleep(1000*10);
+        }
+}
 /*
 Function used to swap two objects position - changes the height of objects
 Arguments: References to two pointers of objects to swap height
@@ -58,11 +72,11 @@ void sort::swap(std::shared_ptr<draw::Rectangle> &index1, std::shared_ptr<draw::
     index1.get()->y2 = index2.get()->y2;
     index2.get()->y2 = temp;
     //sort::renderChoosenFunction(window,index1,index2);
-    index1.get()->ChangeColor(100,0,0);
-    index2.get()->ChangeColor(100,0,0);
+    index1.get()->ChangeColor(256,0,0);
+    index2.get()->ChangeColor(256,0,0);
     sort::renderFunction(RectVec, window);
-    index1.get()->ChangeColor(100,100,100);
-    index2.get()->ChangeColor(100,100,100);
+    index1.get()->ChangeColor(169,169,169);
+    index2.get()->ChangeColor(169,169,169);
     //usleep(1000);
 }
 
@@ -83,7 +97,7 @@ void sort::bubbleSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLF
         for (j = 0; j < n - i - 1; j++)
         {
             comps++;
-            if (RectVec[j].get()->y2 > RectVec[j+1].get()->y2)
+            if (RectVec[j].get()->y2 > RectVec[j+1].get()->y2)      //If element at [j] is smaller than element at [i]
             {
                 sort::swap(RectVec[j], RectVec[j+1],RectVec,window);    //Swap elements
                 swaps++;
@@ -145,4 +159,27 @@ int sort::partition(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWw
 }
 
 
+/*
+Function: Selection sort
+Time Complexity O(n^2)
+*/
+void sort::selectionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps)
+{
+    for(int i = 0; i<RectVec.size(); i++)
+    {
+        int currMinIndex = i;
+        for(int j = i; j<RectVec.size(); j++)
+        {
+            comps++;
+            if(RectVec[currMinIndex].get()->y2 > RectVec[j].get()->y2)
+            {
+                swaps++;
+                currMinIndex = j;
+                sort::swap(RectVec[currMinIndex], RectVec[j], RectVec, window);
+            }
+        }
+        swaps++;
+        sort::swap(RectVec[i], RectVec[currMinIndex], RectVec, window);
+    }
+}
 
