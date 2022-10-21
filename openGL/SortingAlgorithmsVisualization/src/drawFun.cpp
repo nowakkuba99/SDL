@@ -7,6 +7,12 @@ void draw::Rectangle::Draw()
     glRectd(x1,y1,x2,y2);
 }
 
+void draw::Rectangle::Clear()
+{
+    glColor3b(0,0,0);
+    glRectd(x1,y1,x2,y2);
+}
+
 void draw::Rectangle::ChangeSize(GLdouble _x1, GLdouble _y1, GLdouble _x2,GLdouble _y2)
 {
     x1 = _x1;

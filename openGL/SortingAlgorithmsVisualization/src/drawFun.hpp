@@ -11,7 +11,7 @@ namespace draw
     /*Rectangle class*/
     class Rectangle
     {
-    private:
+    public:
         /* data */
         GLdouble x1, y1, x2, y2;
         GLint red = 100, green = 100, blue = 100;
@@ -27,6 +27,13 @@ namespace draw
         /* Custom functions */
         void Draw();
         void ChangeSize(GLdouble _x1, GLdouble _y1, GLdouble _x2,GLdouble _y2);
+        void Clear();
+        void ChangeColor(GLint r, GLint g, GLint b)
+        {
+            red = r;
+            green = g;
+            blue = b;
+        }
     };
     
     
