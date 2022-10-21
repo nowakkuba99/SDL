@@ -3,6 +3,7 @@
 void array::initArr(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec)
 {
     //std::vector<std::shared_ptr<draw::Rectangle>> RectVec;
+    RectVec.clear();
     int n =  sett::numOfElems;
     for(int i = 0; i<n; i++)
     {
