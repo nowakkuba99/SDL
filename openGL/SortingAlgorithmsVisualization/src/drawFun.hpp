@@ -14,7 +14,7 @@ namespace draw
     public:
         /* data */
         GLdouble x1, y1, x2, y2;
-        GLint red = 100, green = 100, blue = 100;
+        GLint red = 169, green = 169, blue = 169;
     public:
         /* Constructors */
         Rectangle(GLdouble _x1, GLdouble _y1, GLdouble _x2,GLdouble _y2): x1(_x1), y1(_y1), x2(_x2), y2(_y2) {};

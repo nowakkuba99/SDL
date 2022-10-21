@@ -3,13 +3,13 @@
 /* ------------ Rectangle class Functions ------------ */
 void draw::Rectangle::Draw()
 {
-    glColor3b(red,green,blue);
+    glColor3d(red*(0.0039),green*(0.0039),blue*(0.0039));
     glRectd(x1,y1,x2,y2);
 }
 
 void draw::Rectangle::Clear()
 {
-    glColor3b(0,0,0);
+    glColor3d(0,0,0);
     glRectd(x1,y1,x2,y2);
 }
 
