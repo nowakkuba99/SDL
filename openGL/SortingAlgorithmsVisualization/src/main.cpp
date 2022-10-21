@@ -39,6 +39,7 @@ int main(void)
         {
             //finished = sort::mainSortFun(window, &sort::bubbleSort,RectVec,swaps,comps);
             finished = sort::mainSortFun(window, &sort::quickSort,RectVec, swaps, comps);
+            std::cout<<"----------------------------------------"<<"\n";
             std::cout<<"Finished!"<<'\n';
             std::cout<<"Num of Comp: "<<comps<<"\n";
             std::cout<<"Num of Swaps: "<<swaps<<"\n";
