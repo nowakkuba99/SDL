@@ -1,8 +1,12 @@
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
+#include <iostream>
+#include <vector>
+
 
 #include "drawFun.hpp"
-#include <vector>
+#include "arrayFunctions.hpp"
+#include "sortingFun.hpp"
 
 int main(void)
 {
@@ -25,30 +29,28 @@ int main(void)
     glfwMakeContextCurrent(window);
 
     std::vector<std::shared_ptr<draw::Rectangle>> RectVec;
-    int n =  sett::numOfElems;
-    for(int i = 0; i<n; i++)
-    {
-        float pos = -1 + sett::constWidth + (2 - sett::constWidth)/n*i;
-        float height = 1 - (2 - sett::constWidth)/n*i;  
-        RectVec.push_back(std::shared_ptr<draw::Rectangle> (new draw::Rectangle(pos,height)));
-    }
-    
-    
-
+    array::initArr(RectVec);
+    bool finished = false;
+    int comps, swaps;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-        for(const auto & rect: RectVec)
+        if(!finished)
         {
-            rect.get()->Draw();
+            //finished = sort::mainSortFun(window, &sort::bubbleSort,RectVec,swaps,comps);
+            finished = sort::mainSortFun(window, &sort::quickSort,RectVec, swaps, comps);
+            std::cout<<"Finished!"<<'\n';
+            std::cout<<"Num of Comp: "<<comps<<"\n";
+            std::cout<<"Num of Swaps: "<<swaps<<"\n";
         }
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+        else
+        {
+            /* Swap front and back buffers */
+            //glfwSwapBuffers(window);
 
-        /* Poll for and process events */
-        glfwPollEvents();
+            /* Poll for and process events */
+            glfwPollEvents();
+        }
     }
 
     glfwTerminate();
