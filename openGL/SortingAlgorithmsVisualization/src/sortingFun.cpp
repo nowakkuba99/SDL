@@ -208,4 +208,114 @@ void sort::insertionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,
         }
     }
 }
+/*
+Function: Merge sort
+Time Complexity O(n^2)
+*/
+void sort::mergeSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &arrayAccess, int &comps)
+{
+    std::vector<draw::Rectangle> RectVecDisplay, RectVecSorted;     //Create new vectors for Display and Sorted arrays
+    for(const auto &rect: RectVec)
+    {
+        RectVecDisplay.push_back(*rect.get());      //Copy RectVec to RecVecDisplay
+    }
+    sort::mergeSortRecursion(RectVec,RectVecDisplay, RectVecSorted, window, arrayAccess, comps, 0, RectVec.size()-1);     //Perform Sorting on the whole array
+}
+/* Heleper function to call recursively */
+void sort::mergeSortRecursion(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &arrayAccess, int &comps, int left, int right)
+{
+    int mid = ((right - left) / 2) + left;  //Get the mid point
+    if(left < right)    //If not base case
+    {
+        sort::mergeSortRecursion(RectVec,RectVecDisplay, RectVecSorted,window,arrayAccess,comps,left,mid);  //Left side recursive call
+        sort::mergeSortRecursion(RectVec,RectVecDisplay, RectVecSorted,window,arrayAccess,comps,mid+1,right);   //Right side recursive call
+    }
+    else
+        return;
+    sort::mergeSortMerging(RectVec,RectVecDisplay, RectVecSorted, window,arrayAccess,comps,left,right);   //After sorting both left and right merge into one sorted array
+    
+}
+/* Helper function to merge two sorted arrays */
+void sort::mergeSortMerging(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &arrayAccess, int &comps, int left, int right)
+{
+    RectVecSorted.clear();                      //Clear sorted vector -> On the second thought it could not be passed, but declared here
+    int mid = ((right - left) / 2) + left + 1;  //Calculate the mid point
+    int beg = mid, begLeft = left;  //Define the begining for left and right arrays
+    bool endReached = false;        //Check if the right array has gotten to the end
+    while(left < beg && endReached == false)    //If both arrays (left/right) has some elements left
+    {
+        comps++; arrayAccess+=2;
+        if(RectVec[left].get()->y2 < RectVec[mid].get()->y2)    //Check which element is greater
+        {
+            arrayAccess++;
+            RectVecSorted.push_back(*RectVec[left].get());      //Push to sorted vector
+            sort::mergeCompareVectors(RectVecDisplay,RectVecSorted,begLeft,window,arrayAccess,comps);     //Update Display vector based on sorted vector
+            left++;     //Increment left pointer
+        }
+        else
+        {
+            arrayAccess++;
+            RectVecSorted.push_back(*RectVec[mid].get());       //Push to sorted vector
+            sort::mergeCompareVectors(RectVecDisplay,RectVecSorted,begLeft,window,arrayAccess,comps);     //Update Display vector based on sorted vector
+            if(mid < right)     //If mid pointer smaller than the right boundary
+                mid++;  //Increment mid pointer
+            else
+                endReached = true;  //If mid is greater or equal already to right boundary set endReached to true
+        }
+    }
+    // Some array has ended -> Paste the array that stayed to the end of sorted array
+    if(endReached == true)      //If second array ended
+    {
+        while(left < beg)       //While something is left in the first array paste it in sorted
+        {
+            arrayAccess++;
+            RectVecSorted.push_back(*RectVec[left].get());      //Push to sorted
+            sort::mergeCompareVectors(RectVecDisplay,RectVecSorted,begLeft,window,arrayAccess,comps);     //Upadate Dispaly vector based on sorted vector
+            left++;     //Increment left pointer
+        }
+    }
+    else    //If first array ended
+    {
+        while(mid < right)      //While something is left in the second array
+        {
+            arrayAccess++;
+            RectVecSorted.push_back(*RectVec[mid].get());   //Push to sorted
+            sort::mergeCompareVectors(RectVecDisplay,RectVecSorted,begLeft,window,arrayAccess,comps); //Update Display vector based on sorted vector
+            mid++;      //Increment mid pointer
+        }
+    }
+    for(int i = begLeft; i<=right; i++)     //Update RecVec (Original) vector based on sorted (Display) vector within given boundaries
+    {
+        arrayAccess++;
+        RectVec[i].get()->y2 = RectVecDisplay[i].y2;
+    }
+}
+/* Helper function to compare display and sorted vector in order to update Display vector*/
+void sort::mergeCompareVectors(std::vector<draw::Rectangle> &RectVecDisplay, std::vector<draw::Rectangle> &RectVecSorted, int index,GLFWwindow* window, int &arrayAccess, int &comps)
+{
+    int n = RectVecSorted.size(); // Calculate sorted vector size
+    arrayAccess+=2; comps++;
+    if(RectVecDisplay[n-1+index].y2 != RectVecSorted[n-1].y2)   //Check if the height of objects is the same
+    {
+        arrayAccess+=2;
+        RectVecDisplay[n-1+index].y2 = RectVecSorted[n-1].y2;   //If so update display vector
+        mergeRenderFunction(RectVecDisplay,window,n-1+index);     //Render new display vector
+    }
+}
+/* Helper function to display the RectVecDisplay vector updated based on new sorted vector*/
+void sort::mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window, int whichRed)    
+{
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
+        RectVecDisplay[whichRed].ChangeColor(256,0,0);
+        for(auto & rect: RectVecDisplay)
+        {
+            rect.Draw();
+        }
+        RectVecDisplay[whichRed].ChangeColor(169,169,169);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
+        /* Poll for and process events */
+        glfwPollEvents();
+}
