@@ -64,7 +64,6 @@ namespace sort
     Time Complexity O(n^2)
     */
     void insertionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
-}
 
     /*
     Function: Merge sort
