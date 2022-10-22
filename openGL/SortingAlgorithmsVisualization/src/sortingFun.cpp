@@ -183,3 +183,29 @@ void sort::selectionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,
     }
 }
 
+
+/*
+Function: Insertion sort
+Time Complexity O(n^2)
+*/
+void sort::insertionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps)
+{
+    int keyIndex;       // Index of current key
+    for(int i = 1; i<RectVec.size(); i++)
+    {
+        keyIndex = i;       //Set index to current object
+        for(int j = i - 1; j >= 0; j--) //Iterate through all elements to the begining of an array
+        {
+            comps++;
+            if(RectVec[keyIndex].get()->y2 < RectVec[j].get()->y2)  //Check if previous element is greater
+            {
+                swaps++;
+                sort::swap(RectVec[keyIndex], RectVec[j], RectVec, window);     //If so swap
+                keyIndex--;             //And move keyIndex
+            }
+            else
+                break;      //If not than all elements on the left are greater so break the inside loop
+        }
+    }
+}
+

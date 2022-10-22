@@ -58,6 +58,12 @@ namespace sort
     Time Complexity O(n^2)
     */
     void selectionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
+
+    /*
+    Function: Insertion sort
+    Time Complexity O(n^2)
+    */
+    void insertionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
 }
 
 #endif /* C1C51E18_B531_4C0E_B78E_FC516D0147DC */
