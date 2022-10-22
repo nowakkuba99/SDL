@@ -266,18 +266,20 @@ void sort::mergeCompareVectors(std::vector<draw::Rectangle> &RectVecDisplay, std
     if(RectVecDisplay[n-1+index].y2 != RectVecSorted[n-1].y2)   //Check if the height of objects is the same
     {
         RectVecDisplay[n-1+index].y2 = RectVecSorted[n-1].y2;   //If so update display vector
-        mergeRenderFunction(RectVecDisplay,window);     //Render new display vector
+        mergeRenderFunction(RectVecDisplay,window,n-1+index);     //Render new display vector
     }
 }
 /* Helper function to display the RectVecDisplay vector updated based on new sorted vector*/
-void sort::mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window)    
+void sort::mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window, int whichRed)    
 {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
+        RectVecDisplay[whichRed].ChangeColor(256,0,0);
         for(auto & rect: RectVecDisplay)
         {
             rect.Draw();
         }
+        RectVecDisplay[whichRed].ChangeColor(169,169,169);
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 

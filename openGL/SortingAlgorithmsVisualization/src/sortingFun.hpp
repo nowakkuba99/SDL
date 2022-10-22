@@ -67,7 +67,7 @@ namespace sort
     void mergeSortRecursion(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &swaps, int &comps, int left, int right);
     void mergeSortMerging(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &swaps, int &copms, int left, int right);
     void mergeCompareVectors(std::vector<draw::Rectangle> &RectVecDisplay, std::vector<draw::Rectangle> &RectVecSorted, int index,GLFWwindow* window);
-    void mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window);
+    void mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window, int whichRed);
 }
 
 #endif /* C1C51E18_B531_4C0E_B78E_FC516D0147DC */
