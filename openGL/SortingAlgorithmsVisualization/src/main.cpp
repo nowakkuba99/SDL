@@ -39,7 +39,7 @@ int main(void)
     std::vector<std::shared_ptr<draw::Rectangle>> RectVec;
     bool finished = false;
     int comps = 0, swaps = 0;
-    std::string type = "bubblesort";
+    std::string type = "mergesort";
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -81,7 +81,17 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
             }
-            
+            else if (type == "mergesort")
+            {
+                /* Merge sort */
+                array::initArr(RectVec);
+                comps = 0; swaps = 0;
+                finished = sort::mainSortFun(window, &sort::mergeSort,RectVec, swaps, comps);
+                std::cout<<"----------------------------------------"<<"\n";
+                std::cout<<"Finished merge Sort!"<<'\n';
+                std::cout<<"Num of Comp: "<<comps<<"\n";
+                std::cout<<"Num of Swaps: "<<swaps<<"\n";
+            }
         }
         else
         {
