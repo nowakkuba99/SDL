@@ -81,6 +81,17 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
             }
+            else if (type == "insertionsort")
+            {
+                /* Selection sort */
+                array::initArr(RectVec);
+                comps = 0; swaps = 0;
+                finished = sort::mainSortFun(window, &sort::insertionSort,RectVec, swaps, comps);
+                std::cout<<"----------------------------------------"<<"\n";
+                std::cout<<"Finished Insertion Sort!"<<'\n';
+                std::cout<<"Num of Comp: "<<comps<<"\n";
+                std::cout<<"Num of Swaps: "<<swaps<<"\n";
+            }
             else if (type == "mergesort")
             {
                 /* Merge sort */

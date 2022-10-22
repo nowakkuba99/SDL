@@ -60,6 +60,13 @@ namespace sort
     void selectionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
 
     /*
+    Function: Insertion sort
+    Time Complexity O(n^2)
+    */
+    void insertionSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
+}
+
+    /*
     Function: Merge sort
     Time Complexity O(n^2)
     */
