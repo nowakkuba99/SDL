@@ -90,7 +90,8 @@ int main(void)
                 std::cout<<"----------------------------------------"<<"\n";
                 std::cout<<"Finished merge Sort!"<<'\n';
                 std::cout<<"Num of Comp: "<<comps<<"\n";
-                std::cout<<"Num of Swaps: "<<swaps<<"\n";
+                std::cout<<"Num of Swaps: "<<"No swapping going on here!"<<"\n";
+                std::cout<<"Num of Array accesses: "<<swaps<<"\n";
             }
         }
         else
