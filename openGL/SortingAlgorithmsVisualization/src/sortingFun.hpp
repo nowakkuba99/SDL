@@ -48,6 +48,7 @@ namespace sort
     /*
     Function: QuickSort
     Time Complexity O(n log(n)) 
+    Space Complexity O(log n)
     */
     void quickSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
     void quickSortHelper(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int low, int high, int &swaps, int &comps);
@@ -67,7 +68,8 @@ namespace sort
 
     /*
     Function: Merge sort
-    Time Complexity O(n^2)
+    Time Complexity O(n*log n)
+    Space Complexity O(n)
     */
     void mergeSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &arrayAccess, int &comps);
     void mergeSortRecursion(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &arrayAccess, int &comps, int left, int right);

@@ -18,5 +18,29 @@ https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann
 https://en.wikipedia.org/wiki/Sorting_algorithm
 
 ## Observe the beauty of sorting!
+O(n^2) algorithms use 50 elements array
+O(n log n) algorithms use 500 elements array
 ### Bubble Sort
-![GIF animation of WFC algorithm](results/WithBacktracking/result.gif)  
+![Bubble Sort](resutls/bubbleSort.gif)
+Number of comparision:
+Number of swaps:
+
+### Insertion Sort
+![Bubble Sort](resutls/insertionSort.gif)
+Number of comparision:
+Number of swaps:
+
+### Selection Sort
+![Bubble Sort](resutls/selectionSort.gif)
+Number of comparision:
+Number of swaps:
+
+### Merge Sort
+![Bubble Sort](resutls/mergeSort.gif)
+Number of comparision:
+Number of swaps:
+
+### Quick Sort
+![Bubble Sort](resutls/quickSort.gif)
+Number of comparision:
+Number of swaps:
