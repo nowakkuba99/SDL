@@ -1,5 +1,5 @@
 # Sorting Algorithms Visualization
-![C++](img/ISO_C%2B%2B_Logo.svg)  
+![C++](img/tech.png)  
 Project build in C++ with OpenGL library used to visualize sorting process with algorithms:
 - Bubble Sort: Time complexity O(n^2), Space complexity O(1)
 - Selection Sort: Time complexity O(n^2), Space complexity O(1)
