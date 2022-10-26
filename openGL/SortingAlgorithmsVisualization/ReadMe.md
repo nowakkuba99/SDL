@@ -13,7 +13,7 @@ In progress:
 - Bucket Sort
 - Heap Sort
 
-Inspiration and reference:
+Inspiration and reference:   
 https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann
 https://en.wikipedia.org/wiki/Sorting_algorithm
 
