@@ -14,7 +14,7 @@ In progress:
 - Heap Sort
 
 Inspiration and reference:   
-https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann
+https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann   
 https://en.wikipedia.org/wiki/Sorting_algorithm
 
 ## Observe the beauty of sorting!
