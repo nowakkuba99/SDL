@@ -39,7 +39,7 @@ int main(void)
     std::vector<std::shared_ptr<draw::Rectangle>> RectVec;
     bool finished = false;
     int comps = 0, swaps = 0;
-    std::string type = "mergesort";
+    std::string type = "quicksort";
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -57,7 +57,7 @@ int main(void)
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
 
                 finished = false;
-                type = "selectionsort";
+                type = "bubblesort";
             }
             else if (type == "quicksort")
             {
@@ -69,6 +69,9 @@ int main(void)
                 std::cout<<"Finished Quick Sort!"<<'\n';
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
+
+                finished = false;
+                type = "selectionsort";
             }
             else if (type == "selectionsort")
             {
@@ -80,6 +83,9 @@ int main(void)
                 std::cout<<"Finished Selection Sort!"<<'\n';
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
+
+                finished = false;
+                type = "insertionsort";
             }
             else if (type == "insertionsort")
             {
@@ -91,6 +97,9 @@ int main(void)
                 std::cout<<"Finished Insertion Sort!"<<'\n';
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
+
+                finished = false;
+                type = "mergesort";
             }
             else if (type == "mergesort")
             {
