@@ -44,22 +44,29 @@ Arguments: Array of shared_ptr<Rectangle>, window
 */
 void sort::endAnimation(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, GLFWwindow* window)
 {
-        /* Render here */
-        for(const auto &rectToChangeColor: RectVec)
+    float max = -2;
+    /* Render here */
+    for(const auto &rectToChangeColor: RectVec)
+    {
+        if(rectToChangeColor.get()->y2 > max)
         {
             rectToChangeColor.get()->ChangeColor(50,205,50);
-            glClear(GL_COLOR_BUFFER_BIT);
-            for(const auto & rect: RectVec)
-            {
-                rect.get()->Draw();
-            }
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window);
-
-            /* Poll for and process events */
-            glfwPollEvents();
-            usleep(1000*10);
+            max = rectToChangeColor.get()->y2;
         }
+        else
+            rectToChangeColor.get()->ChangeColor(205,50,50);
+        glClear(GL_COLOR_BUFFER_BIT);
+        for(const auto & rect: RectVec)
+        {
+            rect.get()->Draw();
+        }
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+        usleep(1000*10);
+    }
 }
 /*
 Function used to swap two objects position - changes the height of objects
@@ -138,13 +145,14 @@ int sort::partition(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWw
         {
             ++lowIndex;
             //std::swap(RectVec[lowIndex], RectVec[i]);
-            {
-                GLdouble temp = RectVec[lowIndex].get()->y2;
-                RectVec[lowIndex].get()->y2 = RectVec[i].get()->y2;
-                RectVec[i].get()->y2 = temp;
-                swaps++;
-            }
-            //sort::swap(RectVec[lowIndex], RectVec[i], RectVec, window);
+            // {
+            //     GLdouble temp = RectVec[lowIndex].get()->y2;
+            //     RectVec[lowIndex].get()->y2 = RectVec[i].get()->y2;
+            //     RectVec[i].get()->y2 = temp;
+            //     swaps++;
+            // }
+            sort::swap(RectVec[lowIndex], RectVec[i], RectVec, window);
+            swaps++;
         }
     }
 
