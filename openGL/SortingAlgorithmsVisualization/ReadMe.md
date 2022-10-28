@@ -17,7 +17,7 @@ In progress:
 - Heap Sort
 
 Inspiration and reference:
-<https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann>
+<https://www.youtube.com/watch?v=kPRA0W1kECg&ab_channel=TimoBingmann>  
 <https://en.wikipedia.org/wiki/Sorting_algorithm>
 
 # Observe the beauty of sorting!
@@ -28,6 +28,7 @@ Below there are gifs showing how algorithms listed above work in real time.
 Number of comparision: 1225   
 Number of swaps: 704   
 <img src="results/bubbleSort.gif" width="640" height="480">
+![BubbleSort](results/bubbleSort.gif)
 
 
 ### Insertion Sort - 50 elements
