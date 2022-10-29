@@ -313,17 +313,65 @@ void sort::mergeCompareVectors(std::vector<draw::Rectangle> &RectVecDisplay, std
 /* Helper function to display the RectVecDisplay vector updated based on new sorted vector*/
 void sort::mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window, int whichRed)    
 {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-        RectVecDisplay[whichRed].ChangeColor(256,0,0);
-        for(auto & rect: RectVecDisplay)
-        {
-            rect.Draw();
-        }
-        RectVecDisplay[whichRed].ChangeColor(169,169,169);
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+    /* Render here */
+    glClear(GL_COLOR_BUFFER_BIT);
+    RectVecDisplay[whichRed].ChangeColor(256,0,0);
+    for(auto & rect: RectVecDisplay)
+    {
+        rect.Draw();
+    }
+    RectVecDisplay[whichRed].ChangeColor(169,169,169);
+    /* Swap front and back buffers */
+    glfwSwapBuffers(window);
 
-        /* Poll for and process events */
-        glfwPollEvents();
+    /* Poll for and process events */
+    glfwPollEvents();
+}
+
+/*
+    Function: Heap sort
+    Time Complexity O(n*log n)
+    Space Comlexity O(1)
+*/
+void sort::heapSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps)
+{
+    sort::buildMaxHeap(RectVec,window,swaps,comps);
+    int n = RectVec.size()-1;
+    for(int i = n; i>0; i--)
+    {
+        swaps++;
+        sort::swap(RectVec[0],RectVec[n],RectVec,window);
+        sort::heapify(RectVec,window,0,n,swaps,comps);
+        n-=1;
+    }
+}
+void sort::buildMaxHeap(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps)
+{
+    for(int i = RectVec.size()/2 - 1; i>=0; i--)
+    {
+        sort::heapify(RectVec,window,i,RectVec.size(),swaps,comps);
+    }
+}
+void sort::heapify(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int curr, int length, int &swaps, int &comps)
+{
+    int largest = curr;
+    int left = 2*curr+1;
+    int right = 2*curr+2;
+    comps++;
+    if(left < length && RectVec[left].get()->y2 > RectVec[largest].get()->y2)
+    {
+        largest = left;
+    }
+    comps++;
+    if(right < length && RectVec[right].get()->y2 > RectVec[largest].get()->y2)
+    {
+        largest = right;
+    }
+
+    if(largest != curr)
+    {
+        swaps++;
+        sort::swap(RectVec[curr], RectVec[largest], RectVec, window);
+        sort::heapify(RectVec,window,largest,length,swaps,comps);
+    }
 }

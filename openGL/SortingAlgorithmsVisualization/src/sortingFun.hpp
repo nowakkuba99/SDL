@@ -76,5 +76,14 @@ namespace sort
     void mergeSortMerging(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec, std::vector<draw::Rectangle> &RectVecDisplay,std::vector<draw::Rectangle> &RectVecSorted, GLFWwindow* window, int &arrayAccess, int &comps, int left, int right);
     void mergeCompareVectors(std::vector<draw::Rectangle> &RectVecDisplay, std::vector<draw::Rectangle> &RectVecSorted, int index,GLFWwindow* window, int &arrayAccess, int &comps);
     void mergeRenderFunction(std::vector<draw::Rectangle> &RectVecDisplay, GLFWwindow* window, int whichRed);
+
+    /*
+    Function: Heap sort
+    Time Complexity O(n*log n)
+    Space Comlexity O(1)
+    */
+    void heapSort(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
+    void buildMaxHeap(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int &swaps, int &comps);
+    void heapify(std::vector<std::shared_ptr<draw::Rectangle>> &RectVec,GLFWwindow* window, int curr, int length, int &swaps, int &comps);
 }
 #endif /* C1C51E18_B531_4C0E_B78E_FC516D0147DC */
