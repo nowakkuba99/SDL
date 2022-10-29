@@ -112,6 +112,20 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<"No swapping going on here!"<<"\n";
                 std::cout<<"Num of Array accesses: "<<swaps<<"\n";
+
+                finished = false;
+                type = "heapsort";
+            }
+            else if (type == "heapsort")
+            {
+                /* Heap sort */
+                array::initArr(RectVec);
+                comps = 0; swaps = 0;
+                finished = sort::mainSortFun(window, &sort::heapSort,RectVec, swaps, comps);
+                std::cout<<"----------------------------------------"<<"\n";
+                std::cout<<"Finished Heap Sort!"<<'\n';
+                std::cout<<"Num of Comp: "<<comps<<"\n";
+                std::cout<<"Num of Swaps: "<<swaps<<"\n";
             }
         }
         else
