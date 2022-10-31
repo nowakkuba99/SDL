@@ -29,7 +29,7 @@ Number of comparision: 1225
 Number of swaps: 704   
 <img src="results/bubbleSort.gif" width="640" height="480">
 
-
+<!-- 
 ### Insertion Sort - 50 elements
 Number of comparision: 749   
 Number of swaps: 704   
@@ -53,4 +53,4 @@ Number of array accesses: 2008
 Number of comparision: 4759   
 Number of swaps: 2787  
 <img src="results/quickSort.gif" width="640" height="480">
- 
+  -->
