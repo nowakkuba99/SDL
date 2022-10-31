@@ -34,14 +34,14 @@ Number of swaps: 704
 Number of comparision: 749   
 Number of swaps: 704   
 <!-- <img src="results/insertionSort.gif" width="640" height="480"> -->
-![InsertionSort](results/insertionsort.gif)
+![InsertionSort](results/insertionSort.gif)
 
 
 ### Selection Sort - 50 elements
 Number of comparision: 1275   
 Number of swaps: 184   
 <!-- <img src="results/selectionSort.gif" width="640" height="480"> -->
-![SelectionSort](results/selectionsort.gif)
+![SelectionSort](results/selectionSort.gif)
 
 ## Part 2: $O(nlog(n))$ Time complexity algorithms
 ### Merge Sort - 200 elements
@@ -49,10 +49,17 @@ Number of comparision: 2733
 Number of swaps: No swapping happening during merge sort      
 Number of array accesses: 11079   
 <!-- <img src="results/mergeSort.gif" width="640" height="480"> -->
-![MergeSort](results/mergesort.gif)
+![MergeSort](results/mergeSort.gif)
 
-### Quick Sort - 500 elements
-Number of comparision: 4759   
-Number of swaps: 2787  
+### Quick Sort - 200 elements
+Number of comparision: 1764   
+Number of swaps: 705  
 <!-- <img src="results/quickSort.gif" width="640" height="480"> -->
- ![QuickSort](results/quicksort.gif)
+ ![QuickSort](results/quickSort.gif)
+ 
+
+### Heap Sort - 500 elements
+Number of comparision: 2932   
+Number of swaps: 1366  
+<!-- <img src="results/quickSort.gif" width="640" height="480"> -->
+ ![HeapSort](results/heapsort.gif)
