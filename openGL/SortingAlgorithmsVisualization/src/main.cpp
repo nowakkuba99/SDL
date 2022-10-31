@@ -56,8 +56,8 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
 
-                //finished = false;
-                type = "bubblesort";
+                finished = false;
+                type = "selectionsort";
             }
             else if (type == "quicksort")
             {
@@ -70,8 +70,8 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
 
-                //finished = false;
-                type = "selectionsort";
+                finished = false;
+                type = "heapsort";
             }
             else if (type == "selectionsort")
             {
@@ -84,7 +84,7 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
 
-                //finished = false;
+                finished = false;
                 type = "insertionsort";
             }
             else if (type == "insertionsort")
@@ -98,7 +98,7 @@ int main(void)
                 std::cout<<"Num of Comp: "<<comps<<"\n";
                 std::cout<<"Num of Swaps: "<<swaps<<"\n";
 
-                //finished = false;
+                finished = false;
                 type = "mergesort";
             }
             else if (type == "mergesort")
@@ -113,8 +113,8 @@ int main(void)
                 std::cout<<"Num of Swaps: "<<"No swapping going on here!"<<"\n";
                 std::cout<<"Num of Array accesses: "<<swaps<<"\n";
 
-                //finished = false;
-                type = "heapsort";
+                finished = false;
+                type = "quicksort";
             }
             else if (type == "heapsort")
             {
