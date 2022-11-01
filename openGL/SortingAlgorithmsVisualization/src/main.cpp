@@ -39,7 +39,7 @@ int main(void)
     std::vector<std::shared_ptr<draw::Rectangle>> RectVec;
     bool finished = false;
     int comps = 0, swaps = 0;
-    std::string type = "heapsort";
+    std::string type = "bubblesort";
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {

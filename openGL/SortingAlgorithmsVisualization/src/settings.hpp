@@ -3,7 +3,7 @@
 
 namespace sett
 {
-    const unsigned int numOfElems = 200;
+    const unsigned int numOfElems = 50;
     const float constWidth = 2.0 / numOfElems / 2;
 }
 
