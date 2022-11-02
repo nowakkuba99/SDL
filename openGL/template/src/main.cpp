@@ -4,9 +4,15 @@
 
 /* Include other libraries */
 #include <iostream>
+#include <math.h>
+
+/* Include image loader library */
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image/stb_image.h>
 
 /* Include user defined header files */
 #include "openGLFun.h"
+#include "shader.h"
 
 
 int main()
@@ -37,31 +43,44 @@ int main()
     /* Be ready for resize */
     glfwSetFramebufferSizeCallback(window, openGL::framebuffer_size_callback);
 
-    /* -- SHADERS --*/
-    /* -Vertex Shader- */
-    /* Vertex shader OpenGL object creating */
-    unsigned int vertexShader;  //Int to store vertexShader ID
-    openGL::createVertexShader(vertexShader);     //Set shader ID to passed variable by reference 
-
-    /* -Fragment Shader- */
-    /* Fragment Shader OpenGL object creating */
-    unsigned int fragmentShader; //Int to store fragmentShader ID
-    openGL::createFragmentShader(fragmentShader);   //Set shader ID to passed variable by reference
-
-    /* -- SHADER PROGRAM -- */
-    /* Create shader program and delete previously created shaders*/
-    unsigned int shaderProgram; //Create variable to store shader program ID
-    openGL::createShaderProgram(vertexShader,fragmentShader,shaderProgram); //Create shaderProgram and delete shaders
-
-    /* -- GEMOETRY --*/
+    /* SHADER PROGRAM USING SHADER CLASS */
+    Shader shaderProgram("path/shader/vertexShader.vs", "path/shader/fragmentShader.fs");
+    
+    
+    /* -- GEMOETRY -- */
     /* Define geometry */
     float vertices[] = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
+        //Vertexes          //Colors            //Texture coords
+         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   1.0f, 1.0f,    // top right
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   1.0f, 0.0f,    // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    // bottom left
+        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 0.0f,   0.0f, 1.0f,    // top left 
+         0.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   0.5f, 1.0f     // middle
     };
     
+    /* -- TEXTURES -- */
+    /* Load image from file */
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load("resources/textures/container.jpg",&width,&height,&nrChannels,0);
+
+    /* Create texture object */
+    unsigned int texture;
+    glGenTextures(1,&texture);  //Genereate 1 texture object
+    glBindTexture(GL_TEXTURE_2D, texture);  //Bind texture as 2D texture
+
+    /* Set texture parameters */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    /* Generate texture from image */
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data);   //Load image to texture
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    /* Delete image from memmory */
+    stbi_image_free(data);
+
 
 
     /* --- VAO and EBO and VBO obcjects --- */
@@ -94,8 +113,9 @@ int main()
     EBO is used to store indices that OpenGL
     used to decide what to draw */
     unsigned int indices[] = {
+        //1,2,4  //One triangle
         0,1,3,  //First triangle
-        1,2,3   //Second trangle
+        1,2,3   //Second triangle
     };
 
     unsigned int EBO;
@@ -105,14 +125,22 @@ int main()
     
 
     /* Preapre vertices interpretation information */
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(GL_FLOAT),(void*)0);                   //          4
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8*sizeof(GL_FLOAT),(void*)0);                   //          4
     /*
     First parameter (index) - set to 0 like in vertexShader location 
     Second parametr (size) - set to 3: 3D vector data(x,y,z)
     Third parameter (normalize) - if we want to normalize to (-1,1)
-    Forth parameter (stride) - size of one data (3d vector -> 3xfloat)
+    Forth parameter (stride) - size of one data (3d vector + 3d color-> 6xfloat)
     Fitht parameter (offset) - offset from the start of array */
     glEnableVertexAttribArray(0);   //Enable the array at location 0
+
+    //Color
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8*sizeof(GL_FLOAT),(void*)(3*sizeof(GL_FLOAT)));
+    glEnableVertexAttribArray(1);   //Enable the array at location 1
+
+    //Texture
+    glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8*sizeof(GL_FLOAT),(void*)(6*sizeof(GL_FLOAT)));
+    glEnableVertexAttribArray(2);
 
     /* Set mode to wideframe */
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -128,8 +156,11 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);         // Clear the current buffer with some color buffer
 
         /* Draw vertices */
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        //glUseProgram(shaderProgram);
+        shaderProgram.makeActive();
+
+        glBindVertexArray(VAO);                             //Bind the atributes
+        glBindTexture(GL_TEXTURE_2D, texture);              //Bind the texture to the sampler
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
         glBindVertexArray(0);
         /* End of rendering */
@@ -146,7 +177,7 @@ int main()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
+    
 
     glfwTerminate(); // Clear/delete created objects
     return 0;
