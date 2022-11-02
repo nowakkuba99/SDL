@@ -33,8 +33,6 @@ int main()
     {
         return -1;
     }
-    /* Set GLD window to correct size */
-    glViewport(0, 0, 800, 600); //(0,0) - botttom left corner
 
     /* Be ready for resize */
     glfwSetFramebufferSizeCallback(window, openGL::framebuffer_size_callback);
@@ -117,7 +115,7 @@ int main()
     glEnableVertexAttribArray(0);   //Enable the array at location 0
 
     /* Set mode to wideframe */
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     /* Main loop */
     /* Renders each frame with each iteration */
@@ -144,6 +142,11 @@ int main()
         */
         glfwPollEvents(); // Check for events (e.g. keyboard interupts etc.) and calls callbacks
     }
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteProgram(shaderProgram);
 
     glfwTerminate(); // Clear/delete created objects
     return 0;

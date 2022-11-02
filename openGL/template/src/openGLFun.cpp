@@ -56,9 +56,11 @@ void openGL::createVertexShader(unsigned int& vertexShader)
     /* Vertex shader source code in GLSL */
     const char *vertexShaderSource = "#version 330 core\n"  //Open GL version 3.3
     "layout (location = 0) in vec3 aPos;\n"     //Set location to 0 and read input as 3D vector(x,y,z)
+    "out vec4 vertexColor;"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n" //Bind input data to gl_position (output) as 4D vector(x,y,z,w)
+    "   vertexColor = vec4(0.5, 0.0, 0.0, 1.0);"
     "}\0";
     /* Vertex shader OpenGL object creating */
     vertexShader = glCreateShader(GL_VERTEX_SHADER);    //Create Vertex Shader object
@@ -89,9 +91,10 @@ void openGL::createFragmentShader(unsigned int& fragmentShader)
     /* Fragment shader source code */
     const char *fragmentShaderSource = "#version 330 core\n"    //openGl ver. 3.3
     "out vec4 FragColor;\n"     //Output 4D vector
+    "in vec4 vertexColor;"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"    //Set output as constant color
+    "   FragColor = vertexColor;\n"    //Set output as constant color
     "}\n\0";
     /* Create OpenGL object - fragment shader */
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
