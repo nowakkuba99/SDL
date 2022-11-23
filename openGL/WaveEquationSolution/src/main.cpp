@@ -1,45 +1,19 @@
-//========================================================================
-// Heightmap example program using OpenGL 3 core profile
-// Copyright (c) 2010 Olivier Delannoy
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//    claim that you wrote the original software. If you use this software
-//    in a product, an acknowledgment in the product documentation would
-//    be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such, and must not
-//    be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source
-//    distribution.
-//
-//========================================================================
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-#include <stddef.h>
-
-#define GLAD_GL_IMPLEMENTATION
+/* Include openGL libraries */
 #include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-/* Map height updates */
-#define MAX_CIRCLE_SIZE (5.0f)
-#define MAX_DISPLACEMENT (1.0f)
-#define DISPLACEMENT_SIGN_LIMIT (0.3f)
-#define MAX_ITER (200)
-#define NUM_ITER_AT_A_TIME (1)
+/* Include openGL math functions */
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+/* Include other libraries */
+#include <iostream>
+#include <math.h>
+
+/* Include user defined header files */
+#include "shader.h"
+#include "camera.hpp"
 
 /* Map general information */
 #define MAP_SIZE (10.0f)
@@ -48,154 +22,223 @@
 #define MAP_NUM_LINES (3* (MAP_NUM_VERTICES - 1) * (MAP_NUM_VERTICES - 1) + \
                2 * (MAP_NUM_VERTICES - 1))
 
+/* Callback functions prototypes */
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouseCallback(GLFWwindow *window, double xpos, double ypos);
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput(GLFWwindow *window, float deltaTime);
 
-/**********************************************************************
- * Default shader programs
- *********************************************************************/
+/* Global varialbes for camera pouropses */
+Camera globalCamera(glm::vec3(0.0f,0.0f,3.0f));   // Create Camera object
+float lastX=400, lastY=300;
+bool firstMouse = true;
 
-static const char* vertex_shader_text =
-"#version 150\n"
-"uniform mat4 project;\n"
-"uniform mat4 modelview;\n"
-"in float x;\n"
-"in float y;\n"
-"in float z;\n"
-"\n"
-"void main()\n"
-"{\n"
-"   gl_Position = project * modelview * vec4(x, y, z, 1.0);\n"
-"}\n";
-
-static const char* fragment_shader_text =
-"#version 150\n"
-"out vec4 color;\n"
-"void main()\n"
-"{\n"
-"    color = vec4(0.2, 1.0, 0.2, 1.0); \n"
-"}\n";
-
-/**********************************************************************
- * Values for shader uniforms
- *********************************************************************/
-
-/* Frustum configuration */
-static GLfloat view_angle = 45.0f;
-static GLfloat aspect_ratio = 4.0f/3.0f;
-static GLfloat z_near = 1.0f;
-static GLfloat z_far = 100.f;
-
-/* Projection matrix */
-static GLfloat projection_matrix[16] = {
-    1.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f
-};
-
-/* Model view matrix */
-static GLfloat modelview_matrix[16] = {
-    1.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 0.0f, 1.0f
-};
-
-/**********************************************************************
- * Heightmap vertex and index data
- *********************************************************************/
-
+/* Heightmap vertex and index data */
 static GLfloat map_vertices[3][MAP_NUM_TOTAL_VERTICES];
 static GLuint  map_line_indices[2*MAP_NUM_LINES];
 
-/* Store uniform location for the shaders
- * Those values are setup as part of the process of creating
- * the shader program. They should not be used before creating
- * the program.
- */
-static GLuint mesh;
-static GLuint mesh_vbo[4];
 
-/**********************************************************************
- * OpenGL helper functions
- *********************************************************************/
 
-/* Creates a shader object of the specified type using the specified text
- */
-static GLuint make_shader(GLenum type, const char* text)
+
+int main()
 {
-    GLuint shader;
-    GLint shader_ok;
-    GLsizei log_length;
-    char info_log[8192];
-
-    shader = glCreateShader(type);
-    if (shader != 0)
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+    /* Initialize GLFW */
+    glfwInit();                                                    // Initialize GLFW library
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                 // Set openGL version to 3.3
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);                 // Set openGL version to 3.3
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Set openGL profile to core profile
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // Set for MAC OS to set window forward
+    /* Create window */
+    GLFWwindow *window = glfwCreateWindow(800, 600, "Wave Equation Solution", NULL, NULL); // Create window
+    if (window == NULL)                                                           // Check if window properly created
     {
-        glShaderSource(shader, 1, (const GLchar**)&text, NULL);
-        glCompileShader(shader);
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &shader_ok);
-        if (shader_ok != GL_TRUE)
-        {
-            fprintf(stderr, "ERROR: Failed to compile %s shader\n", (type == GL_FRAGMENT_SHADER) ? "fragment" : "vertex" );
-            glGetShaderInfoLog(shader, 8192, &log_length,info_log);
-            fprintf(stderr, "ERROR: \n%s\n\n", info_log);
-            glDeleteShader(shader);
-            shader = 0;
-        }
+        std::cout << "Failed to create window!\n";
+        glfwTerminate();
+        return -1;
     }
-    return shader;
+    glfwMakeContextCurrent(window); // Set the current window as current to render
+
+    /* GLAD initialization */
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD\n";
+        return -1;
+    }
+    
+    /* Be ready for resize */
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    /* SHADER PROGRAM USING SHADER CLASS */
+    Shader programShader("path/shader/vertexShader.vs", "path/shader/fragmentShader.fs");
+
+    /* Geometry */
+    float vertices[] = {
+        //Vertexes          //Colors            
+         0.5f,  0.5f, 0.0f,  0.1f, 0.5f, 0.2f,    // top right
+         0.5f, -0.5f, 0.0f,  0.1f, 0.5f, 0.2f,    // bottom right
+        -0.5f, -0.5f, 0.0f,  0.1f, 0.5f, 0.2f,    // bottom left
+        -0.5f,  0.5f, 0.0f,  0.1f, 0.5f, 0.2f,    // top left 
+    };
+
+    unsigned int indices[] = {
+        0,1,2,  //First triangle
+        0,2,3   //Second triangle
+    };
+
+
+
+    /* --- VAO, EBO and VBO obcjects --- */
+    /* VERTEX ARRAY OBJECT (VAO) */
+    unsigned int VAO;   //Var to store VAO ID
+    glGenVertexArrays(1, &VAO);  //Create VAO Object and store ID
+    glBindVertexArray(VAO); //Bind Vertex Array to VAO  
+    /* VBO - Vertex Buffer Objects */
+    unsigned int VBO;   //Create variable to store VBO unique ID
+    glGenBuffers(1, &VBO);  //Generate unique VBO ID and set it to variable
+    glBindBuffer(GL_ARRAY_BUFFER,VBO);  //Bind VBO buffer to GL_ARRAY_BUFFER
+    /* EBO - Element Buffer objects */
+    unsigned int EBO;
+    glGenBuffers(1,&EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW); //Send vertices to VBO buffer
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(GL_FLOAT),(void*)0);  //Set attribute 0 - vertixes
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(GL_FLOAT),(void*)(3*sizeof(GL_FLOAT)));
+    glEnableVertexAttribArray(0);   //Enable the array at location 1
+    glEnableVertexAttribArray(1);   //Enable the array at location 1
+    
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
+    programShader.makeActive();
+
+    glm::mat4 projection = glm::mat4(1.0f);
+    projection = glm::perspective(glm::radians(globalCamera.m_Zoom),800.0f/600.0f,0.1f,100.f);
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model,glm::radians(-70.0f),glm::vec3(1.0f,0.0f,0.0f));
+    int modelLoc = glGetUniformLocation(programShader.shaderProgramID, "model");
+    int viewLoc = glGetUniformLocation(programShader.shaderProgramID, "view");
+    int projectionLoc = glGetUniformLocation(programShader.shaderProgramID, "projection");
+
+    /* Enalbe depth testing */
+    glEnable(GL_DEPTH_TEST);
+    
+    glm::mat4 view;
+    float deltaTime = 0.0f;    //Time between 2 frames
+    float lastFrame = 0.0f;    //Time of last frame
+
+    glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);  //Hide mouse and capture it
+    glfwSetCursorPosCallback(window,mouseCallback);
+    glfwSetScrollCallback(window,scrollCallback);
+
+    /* Main loop */
+    /* Renders each frame with each iteration */
+    while (!glfwWindowShouldClose(window))
+    {
+        processInput(window,deltaTime);
+        /* Start rendering */
+        programShader.makeActive();
+        glBindVertexArray(VAO);                             //Bind the atributes
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // Set color that will be set with clear command
+        glClear(GL_COLOR_BUFFER_BIT);         // Clear the current buffer with some color buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clear the depth buffer
+
+
+        /* Camera handling */
+        view = globalCamera.getViewMatrix();
+        projection = glm::perspective(glm::radians(globalCamera.m_Zoom),800.0f/600.0f,0.1f,100.f);
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame-lastFrame;
+        lastFrame = currentFrame;
+        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+        //glDrawArrays(GL_TRIANGLES,0,6);
+        glBindVertexArray(0);
+        /* End of rendering */
+
+        glfwSwapBuffers(window); // Swap current pixels values for the window
+        /* Double buffer
+        One buffer is displayed to the user and the second one is being
+        build in the background so no flickering is happening while rendering
+        pixel by pixel but whole image is being drawn
+        */
+        glfwPollEvents(); // Check for events (e.g. keyboard interupts etc.) and calls callback
+    }
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    
+
+    glfwTerminate(); // Clear/delete created objects
+    return 0;
 }
 
-/* Creates a program object using the specified vertex and fragment text
- */
-static GLuint make_shader_program(const char* vs_text, const char* fs_text)
+/**********************************************************************
+ * Callback functions
+ *********************************************************************/
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-    GLuint program = 0u;
-    GLint program_ok;
-    GLuint vertex_shader = 0u;
-    GLuint fragment_shader = 0u;
-    GLsizei log_length;
-    char info_log[8192];
-
-    vertex_shader = make_shader(GL_VERTEX_SHADER, vs_text);
-    if (vertex_shader != 0u)
+    glViewport(0, 0, width, height); // Set ViewPort to proper values
+}
+void mouseCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    if (firstMouse) // initially set to true
     {
-        fragment_shader = make_shader(GL_FRAGMENT_SHADER, fs_text);
-        if (fragment_shader != 0u)
-        {
-            /* make the program that connect the two shader and link it */
-            program = glCreateProgram();
-            if (program != 0u)
-            {
-                /* attach both shader and link */
-                glAttachShader(program, vertex_shader);
-                glAttachShader(program, fragment_shader);
-                glLinkProgram(program);
-                glGetProgramiv(program, GL_LINK_STATUS, &program_ok);
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
 
-                if (program_ok != GL_TRUE)
-                {
-                    fprintf(stderr, "ERROR, failed to link shader program\n");
-                    glGetProgramInfoLog(program, 8192, &log_length, info_log);
-                    fprintf(stderr, "ERROR: \n%s\n\n", info_log);
-                    glDeleteProgram(program);
-                    glDeleteShader(fragment_shader);
-                    glDeleteShader(vertex_shader);
-                    program = 0u;
-                }
-            }
-        }
-        else
-        {
-            fprintf(stderr, "ERROR: Unable to load fragment shader\n");
-            glDeleteShader(vertex_shader);
-        }
+    float xoffset = xpos-lastX;
+    float yoffset = lastY-ypos; //Reversed since y axis is goin up
+    lastX = xpos;
+    lastY = ypos;
+    
+    globalCamera.processMouseAction(xoffset,yoffset,true);
+}
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    globalCamera.processScrollAction(yoffset);
+}
+void processInput(GLFWwindow *window, float deltaTime)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) // If ESC pressed
+    {
+        glfwSetWindowShouldClose(window, true); // Set flag to close window
     }
     else
     {
-        fprintf(stderr, "ERROR: Unable to load vertex shader\n");
+        if(glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+        {
+            globalCamera.processKeyboardAction(camera::FORAWRD,deltaTime);
+        }
+        
+        if(glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
+        {
+            globalCamera.processKeyboardAction(camera::BACKWARD,deltaTime);
+        }
+
+        if(glfwGetKey(window,GLFW_KEY_A) == GLFW_PRESS)
+        {
+            globalCamera.processKeyboardAction(camera::LEFT,deltaTime);
+        }
+
+        if(glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
+        {
+            globalCamera.processKeyboardAction(camera::RIGHT,deltaTime);
+        }
     }
-    return program;
 }
 
 /**********************************************************************
@@ -286,227 +329,4 @@ static void init_map(void)
                 map_vertices[0][end], map_vertices[1][end], map_vertices[2][end]);
     }
 #endif
-}
-
-static void generate_heightmap__circle(float* center_x, float* center_y,
-        float* size, float* displacement)
-{
-    float sign;
-    /* random value for element in between [0-1.0] */
-    *center_x = (MAP_SIZE * rand()) / (float) RAND_MAX;
-    *center_y = (MAP_SIZE * rand()) / (float) RAND_MAX;
-    *size = (MAX_CIRCLE_SIZE * rand()) / (float) RAND_MAX;
-    sign = (1.0f * rand()) / (float) RAND_MAX;
-    sign = (sign < DISPLACEMENT_SIGN_LIMIT) ? -1.0f : 1.0f;
-    *displacement = (sign * (MAX_DISPLACEMENT * rand())) / (float) RAND_MAX;
-}
-
-/* Run the specified number of iterations of the generation process for the
- * heightmap
- */
-static void update_map(int num_iter)
-{
-    assert(num_iter > 0);
-    while(num_iter)
-    {
-        /* center of the circle */
-        float center_x;
-        float center_z;
-        float circle_size;
-        float disp;
-        size_t ii;
-        generate_heightmap__circle(&center_x, &center_z, &circle_size, &disp);
-        disp = disp / 2.0f;
-        for (ii = 0u ; ii < MAP_NUM_TOTAL_VERTICES ; ++ii)
-        {
-            GLfloat dx = center_x - map_vertices[0][ii];
-            GLfloat dz = center_z - map_vertices[2][ii];
-            GLfloat pd = (2.0f * (float) sqrt((dx * dx) + (dz * dz))) / circle_size;
-            if (fabs(pd) <= 1.0f)
-            {
-                /* tx,tz is within the circle */
-                GLfloat new_height = disp + (float) (cos(pd*3.14f)*disp);
-                map_vertices[1][ii] += new_height;
-            }
-        }
-        --num_iter;
-    }
-}
-
-/**********************************************************************
- * OpenGL helper functions
- *********************************************************************/
-
-/* Create VBO, IBO and VAO objects for the heightmap geometry and bind them to
- * the specified program object
- */
-static void make_mesh(GLuint program)
-{
-    GLuint attrloc;
-
-    glGenVertexArrays(1, &mesh);
-    glGenBuffers(4, mesh_vbo);
-    glBindVertexArray(mesh);
-    /* Prepare the data for drawing through a buffer inidices */
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_vbo[3]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)* MAP_NUM_LINES * 2, map_line_indices, GL_STATIC_DRAW);
-
-    /* Prepare the attributes for rendering */
-    attrloc = glGetAttribLocation(program, "x");
-    glBindBuffer(GL_ARRAY_BUFFER, mesh_vbo[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * MAP_NUM_TOTAL_VERTICES, &map_vertices[0][0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(attrloc);
-    glVertexAttribPointer(attrloc, 1, GL_FLOAT, GL_FALSE, 0, 0);
-
-    attrloc = glGetAttribLocation(program, "z");
-    glBindBuffer(GL_ARRAY_BUFFER, mesh_vbo[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * MAP_NUM_TOTAL_VERTICES, &map_vertices[2][0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(attrloc);
-    glVertexAttribPointer(attrloc, 1, GL_FLOAT, GL_FALSE, 0, 0);
-
-    attrloc = glGetAttribLocation(program, "y");
-    glBindBuffer(GL_ARRAY_BUFFER, mesh_vbo[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * MAP_NUM_TOTAL_VERTICES, &map_vertices[1][0], GL_DYNAMIC_DRAW);
-    glEnableVertexAttribArray(attrloc);
-    glVertexAttribPointer(attrloc, 1, GL_FLOAT, GL_FALSE, 0, 0);
-}
-
-/* Update VBO vertices from source data
- */
-static void update_mesh(void)
-{
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * MAP_NUM_TOTAL_VERTICES, &map_vertices[1][0]);
-}
-
-/**********************************************************************
- * GLFW callback functions
- *********************************************************************/
-
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    switch(key)
-    {
-        case GLFW_KEY_ESCAPE:
-            /* Exit program on Escape */
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
-            break;
-    }
-}
-
-static void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-}
-
-int main(int argc, char** argv)
-{
-    GLFWwindow* window;
-    int iter;
-    double dt;
-    double last_update_time;
-    int frame;
-    float f;
-    GLint uloc_modelview;
-    GLint uloc_project;
-    int width, height;
-
-    GLuint shader_program;
-
-    glfwSetErrorCallback(error_callback);
-
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
-
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-
-    window = glfwCreateWindow(800, 600, "GLFW OpenGL3 Heightmap demo", NULL, NULL);
-    if (! window )
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-
-    /* Register events callback */
-    glfwSetKeyCallback(window, key_callback);
-
-    glfwMakeContextCurrent(window);
-    gladLoadGL();
-
-    /* Prepare opengl resources for rendering */
-    shader_program = make_shader_program(vertex_shader_text, fragment_shader_text);
-
-    if (shader_program == 0u)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-
-    glUseProgram(shader_program);
-    uloc_project   = glGetUniformLocation(shader_program, "project");
-    uloc_modelview = glGetUniformLocation(shader_program, "modelview");
-
-    /* Compute the projection matrix */
-    f = 1.0f / tanf(view_angle / 2.0f);
-    projection_matrix[0]  = f / aspect_ratio;
-    projection_matrix[5]  = f;
-    projection_matrix[10] = (z_far + z_near)/ (z_near - z_far);
-    projection_matrix[11] = -1.0f;
-    projection_matrix[14] = 2.0f * (z_far * z_near) / (z_near - z_far);
-    glUniformMatrix4fv(uloc_project, 1, GL_FALSE, projection_matrix);
-
-    /* Set the camera position */
-    modelview_matrix[12]  = -5.0f;
-    modelview_matrix[13]  = -5.0f;
-    modelview_matrix[14]  = -20.0f;
-    glUniformMatrix4fv(uloc_modelview, 1, GL_FALSE, modelview_matrix);
-
-    /* Create mesh data */
-    init_map();
-    make_mesh(shader_program);
-
-    /* Create vao + vbo to store the mesh */
-    /* Create the vbo to store all the information for the grid and the height */
-
-    /* setup the scene ready for rendering */
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-    /* main loop */
-    frame = 0;
-    iter = 0;
-    last_update_time = glfwGetTime();
-
-    while (!glfwWindowShouldClose(window))
-    {
-        ++frame;
-        /* render the next frame */
-        glClear(GL_COLOR_BUFFER_BIT);
-        glDrawElements(GL_LINES, 2* MAP_NUM_LINES , GL_UNSIGNED_INT, 0);
-
-        /* display and process events through callbacks */
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-        /* Check the frame rate and update the heightmap if needed */
-        dt = glfwGetTime();
-        if ((dt - last_update_time) > 0.2)
-        {
-            /* generate the next iteration of the heightmap */
-            if (iter < MAX_ITER)
-            {
-                update_map(NUM_ITER_AT_A_TIME);
-                update_mesh();
-                iter += NUM_ITER_AT_A_TIME;
-            }
-            last_update_time = dt;
-            frame = 0;
-        }
-    }
-
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
 }
