@@ -23,7 +23,7 @@ FetchContent_Declare(
     GIT_TAG        ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36 #release-1.11.0
 )
 FetchContent_MakeAvailable(spdlog)
-target_link_libraries(Barrel spdlog::spdlog)
+target_link_libraries(Barrel PUBLIC spdlog::spdlog)
 
 
 

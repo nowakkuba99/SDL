@@ -5,13 +5,17 @@
 */
 // Includes
 #include "application.hpp"
-
+#include "Log.hpp"
 /* Extern variables declaration */
 extern Barrel::Application* Barrel::CreateApplication();
 
 /* Main implementation */
 int main(int aggc, char** argv)
 {
+    Barrel::Log::Init();    //Initialize logger
+    Barrel::Log::GetCoreLogger()->warn("This is a core warning!");
+    Barrel::Log::GetClientLogger()->info("This is a client info!");
+
     auto app = Barrel::CreateApplication();
     app->Run();
     delete app;
