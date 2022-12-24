@@ -13,6 +13,8 @@ file(GLOB SOURCES_HPP "src/*.hpp")
 # Create library
 add_library(Barrel SHARED ${SOURCES_CPP} ${SOURCES_HPP} ${SOURCES_BARREL_HPP})
 
+# Add pre-compiled headers
+target_precompile_headers(Barrel PUBLIC src/pch/pchBarrel.hpp)
 
 # -------- Third parties libraries -------- #
 include(FetchContent)
