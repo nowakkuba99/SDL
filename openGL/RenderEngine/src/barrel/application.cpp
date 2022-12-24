@@ -1,6 +1,6 @@
 // Includes
 #include <iostream>
-// User files
+
 #include "application.hpp"
 #include "Log.hpp"
 #include "../events/ApplicationEvent.hpp"

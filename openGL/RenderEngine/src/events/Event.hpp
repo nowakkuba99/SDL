@@ -8,12 +8,6 @@
 // Bitfield macro
 #define BIT(x) (1 << x) //Move 1 x bits to the left
 
-
-
-// Includes
-#include <string>
-#include <sstream>
-#include <functional>
 // User includes
 
 // Event system
