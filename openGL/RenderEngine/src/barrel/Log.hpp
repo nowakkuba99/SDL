@@ -1,9 +1,12 @@
 #ifndef B48B6F7C_C8ED_4F71_AB61_6735D6F9879E
 #define B48B6F7C_C8ED_4F71_AB61_6735D6F9879E
 // Includes
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/fmt/ostr.h"
+#pragma warning(push, 0)    //Ignore warnings from external libs
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#pragma warning(pop)
 // User defined includes
 
 namespace Barrel

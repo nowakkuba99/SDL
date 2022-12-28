@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "application.hpp"
-#include "Log.hpp"
 #include "../events/ApplicationEvent.hpp"
 
 // Application class implementation
@@ -10,6 +9,7 @@ namespace Barrel
 {
     Application::Application()
     {
+        m_Window = std::unique_ptr<Window> (Window::Create());
     }
 
     Application::~Application()
@@ -19,7 +19,9 @@ namespace Barrel
     void Application::Run()
     {
         std::cout<<"Barrel started!\n";
-        WindowResizeEvent e(1280,720);
-        BR_TRACE(e);
+        while(m_Running)
+        {
+            m_Window->OnUpdate();
+        }
     }
 }

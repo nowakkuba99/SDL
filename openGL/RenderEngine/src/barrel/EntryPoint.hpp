@@ -13,9 +13,6 @@ extern Barrel::Application* Barrel::CreateApplication();
 int main(int aggc, char** argv)
 {
     Barrel::Log::Init();    //Initialize logger
-    //Barrel::Log::GetCoreLogger()->warn("This is a core warning!");
-    //Barrel::Log::GetClientLogger()->info("This is a client info!");
-    BR_CORE_ERROR("XXXX");
     auto app = Barrel::CreateApplication();
     app->Run();
     delete app;

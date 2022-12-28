@@ -3,14 +3,12 @@
 // Includes
 
 // User files
-
+#include "Window.hpp"
 // Application class
 namespace Barrel
 {
     class Application
     {
-    private:
-
     public:
         //Constructors
         Application();
@@ -18,6 +16,10 @@ namespace Barrel
         virtual ~Application();
         // Custom functions
         void Run();
+    private:
+        // Member variables
+        std::unique_ptr<Window> m_Window;
+        bool m_Running = true;
     };
     /* Function used to create application by dependent application */
     Application* CreateApplication();
