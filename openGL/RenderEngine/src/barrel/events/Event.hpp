@@ -58,7 +58,6 @@ namespace Barrel
         {
             return GetCategoryFlags() & category;
         }
-    protected:
         bool m_Handled = false;     // Variable to keep track if event has been handled
     };
 

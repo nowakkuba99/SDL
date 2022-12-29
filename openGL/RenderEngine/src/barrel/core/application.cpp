@@ -3,6 +3,8 @@
 
 #include "application.hpp"
 
+#include <GLFW/glfw3.h>
+
 // Application class implementation
 namespace Barrel
 {
@@ -26,9 +28,19 @@ namespace Barrel
         std::cout<<"Barrel started!\n";
         while(m_Running)
         {
+            //glClearColor(0,0.5,0.5,1);
+            //glClear(GL_COLOR_BUFFER_BIT);
+
+            // Call all layers onUpdate()
+            for(auto layer: m_LayerStack)
+            {
+                layer->OnUpdate();
+            }
+            // Call window onUpdate()
             m_Window->OnUpdate();
         }
     }
+    /* --- Event Related --- */
     // Function that is called with all events
     void Application::OnEvent(Event& event)
     {
@@ -37,6 +49,13 @@ namespace Barrel
         // Create call for WindowCloseEvent to OnWindowClose function
         dispatch.dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(OnWindowClose));
 
+        // Propagate backwards through layerstack until event handled
+        for(auto it = m_LayerStack.end(); it!= m_LayerStack.begin(); )
+        {
+            (*--it)->OnEvent(event);
+            if(event.m_Handled)
+                break;
+        }
 
         // Trace all events occurences
         BR_CORE_TRACE("{0}",event);
@@ -46,5 +65,16 @@ namespace Barrel
     {
         m_Running = false;
         return true;
+    }
+
+    /* --- LayerStack related --- */
+    void Application::PushLayer(Layer* layer)
+    {
+        m_LayerStack.PushLayer(layer);
+    }
+
+    void Application::PopLayer(Layer* layer)
+    {
+        m_LayerStack.PopLayer(layer);
     }
 }

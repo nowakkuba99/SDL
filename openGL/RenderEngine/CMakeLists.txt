@@ -6,8 +6,23 @@ set (CMAKE_CXX_STANDARD 17)
 include(CTest)
 enable_testing()
 # Locations for files
-file(GLOB SOURCES_CPP "src/barrel/*.cpp" "src/barrel/log/*.cpp" "src/barrel/events/*.cpp" "src/barrel/window/*.cpp" "src/barrel/core/*.cpp")
-file(GLOB SOURCES_HPP "src/*.hpp" "src/barrel/log/*.hpp" "src/barrel/events/*.hpp" "src/barrel/window/*.hpp" "src/barrel/core/*.hpp")
+file(GLOB SOURCES_CPP 
+    "src/barrel/*.cpp"
+    "src/barrel/core/*.cpp"
+    "src/barrel/events/*.cpp"
+    "src/barrel/layers/*.cpp"
+    "src/barrel/log/*.cpp"
+    "src/barrel/window/*.cpp"
+    )
+
+file(GLOB SOURCES_HPP 
+    "src/*.hpp"
+    "src/barrel/core/*.hpp"
+    "src/barrel/events/*.hpp"
+    "src/barrel/layers/*.hpp"
+    "src/barrel/log/*.hpp"
+    "src/barrel/window/*.hpp"
+    )
 # Create library
 add_library(Barrel SHARED ${SOURCES_CPP} ${SOURCES_HPP})
 

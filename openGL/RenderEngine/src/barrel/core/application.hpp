@@ -6,6 +6,7 @@
 #include "../window/Window.hpp"
 #include "../events/Event.hpp"
 #include "../events/ApplicationEvent.hpp"
+#include "../layers/LayerStack.hpp"
 // Application class
 namespace Barrel
 {
@@ -18,15 +19,19 @@ namespace Barrel
         virtual ~Application();
         // Custom functions
         void Run();
-
+        // Event Realted
         void OnEvent(Event& event);
+        // Layer related
+        void PushLayer(Layer* layer);
+        void PopLayer(Layer* layer);
     private:
+        // Functions
+        bool OnWindowClose(WindowCloseEvent& event);
+
         // Member variables
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
-
-        // Functions
-        bool OnWindowClose(WindowCloseEvent& event);
+        LayerStack m_LayerStack;
     };
     /* Function used to create application by dependent application */
     Application* CreateApplication();
