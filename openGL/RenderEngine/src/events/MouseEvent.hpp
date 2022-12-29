@@ -10,11 +10,11 @@
 namespace Barrel
 {
     // Mouse moved class
-    class MoseMovedEvent : public Event
+    class MouseMovedEvent : public Event
     {
     public:
         // Constructor
-        MoseMovedEvent(const float x, const float y)
+        MouseMovedEvent(const float x, const float y)
             : m_MouseX(x), m_MouseY(y) {}
         // Custom functions
         float getX() const { return m_MouseX; }
