@@ -4,8 +4,8 @@
     File that has the main function implemented 
 */
 // Includes
-#include "application.hpp"
-#include "Log.hpp"
+#include "core/application.hpp"
+#include "log/Log.hpp"
 /* Extern variables declaration */
 extern Barrel::Application* Barrel::CreateApplication();
 

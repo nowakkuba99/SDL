@@ -16,7 +16,7 @@
 #include <unordered_set>
 
 /* Logging */
-#include "../barrel/Log.hpp"
+#include "../barrel/log/Log.hpp"
 
 
 

@@ -5,7 +5,7 @@
     Abstract Window class
 */
 // Pre-compiled headers
-#include "../pch/pchBarrel.hpp"
+#include "../../pch/pchBarrel.hpp"
 // Events
 #include "../events/Event.hpp"
 

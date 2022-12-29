@@ -5,7 +5,7 @@
 */
 #include <GLFW/glfw3.h>
 
-#include "../barrel/Window.hpp"
+#include "Window.hpp"
 
 namespace Barrel
 {

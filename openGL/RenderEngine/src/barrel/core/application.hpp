@@ -3,7 +3,7 @@
 // Includes
 
 // User files
-#include "Window.hpp"
+#include "../window/Window.hpp"
 #include "../events/Event.hpp"
 #include "../events/ApplicationEvent.hpp"
 // Application class

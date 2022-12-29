@@ -3,11 +3,11 @@
 
 // For use by Barrel application
 /* Application files */
-#include "barrel/application.hpp"
+#include "barrel/core/application.hpp"
 /* Entry point */
 #include "barrel/EntryPoint.hpp"
 /* Logger */
-#include "barrel/Log.hpp"
+#include "barrel/log/Log.hpp"
 
 
 

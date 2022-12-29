@@ -1,5 +1,5 @@
 // Pre-compiled headers
-#include "../pch/pchBarrel.hpp"
+#include "../../pch/pchBarrel.hpp"
 // MacOs window
 #include "MacOsWindow.hpp"
 

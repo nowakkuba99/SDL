@@ -6,12 +6,10 @@ set (CMAKE_CXX_STANDARD 17)
 include(CTest)
 enable_testing()
 # Locations for files
-file(GLOB SOURCES_CPP "src/barrel/*.cpp")
-file(GLOB SOURCES_BARREL_HPP "src/barrel/*.hpp")
-file(GLOB SOURCES_HPP "src/*.hpp")
-
+file(GLOB SOURCES_CPP "src/barrel/*.cpp" "src/barrel/log/*.cpp" "src/barrel/events/*.cpp" "src/barrel/window/*.cpp" "src/barrel/core/*.cpp")
+file(GLOB SOURCES_HPP "src/*.hpp" "src/barrel/log/*.hpp" "src/barrel/events/*.hpp" "src/barrel/window/*.hpp" "src/barrel/core/*.hpp")
 # Create library
-add_library(Barrel SHARED ${SOURCES_CPP} ${SOURCES_HPP} ${SOURCES_BARREL_HPP})
+add_library(Barrel SHARED ${SOURCES_CPP} ${SOURCES_HPP})
 
 # Add pre-compiled headers
 target_precompile_headers(Barrel PUBLIC src/pch/pchBarrel.hpp)
@@ -33,7 +31,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog glfw)
 target_link_libraries(Barrel PUBLIC spdlog::spdlog glfw)
 
-
+message(WARNING,${SOURCES_CPP} ${SOURCES_HPP})
 
 
 

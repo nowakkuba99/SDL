@@ -1,4 +1,4 @@
-#include "../pch/pchBarrel.hpp" //Pre-compiled headers
+#include "../../pch/pchBarrel.hpp" //Pre-compiled headers
 
 #include "MacOsWindow.hpp"  // MacOsWindow
 
