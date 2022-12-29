@@ -4,6 +4,8 @@
 
 // User files
 #include "Window.hpp"
+#include "../events/Event.hpp"
+#include "../events/ApplicationEvent.hpp"
 // Application class
 namespace Barrel
 {
@@ -16,10 +18,15 @@ namespace Barrel
         virtual ~Application();
         // Custom functions
         void Run();
+
+        void OnEvent(Event& event);
     private:
         // Member variables
         std::unique_ptr<Window> m_Window;
         bool m_Running = true;
+
+        // Functions
+        bool OnWindowClose(WindowCloseEvent& event);
     };
     /* Function used to create application by dependent application */
     Application* CreateApplication();
