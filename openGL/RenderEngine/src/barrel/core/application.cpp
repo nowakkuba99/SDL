@@ -1,9 +1,7 @@
 // Includes
 #include <iostream>
-
+// Includes
 #include "application.hpp"
-
-#include <GLFW/glfw3.h>
 
 // Application class implementation
 namespace Barrel
@@ -28,9 +26,6 @@ namespace Barrel
         std::cout<<"Barrel started!\n";
         while(m_Running)
         {
-            //glClearColor(0,0.5,0.5,1);
-            //glClear(GL_COLOR_BUFFER_BIT);
-
             // Call all layers onUpdate()
             for(auto layer: m_LayerStack)
             {

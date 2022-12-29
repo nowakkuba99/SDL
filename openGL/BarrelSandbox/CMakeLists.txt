@@ -48,7 +48,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog glfw)
 target_link_libraries(BarrelSandbox PUBLIC spdlog::spdlog glfw)
 
-
+#GLAD
+add_subdirectory(vendor/glad/)
+target_link_libraries(BarrelSandbox PRIVATE glad)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

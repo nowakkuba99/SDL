@@ -1,7 +1,8 @@
 #ifndef FF5E1331_88AF_4C2B_BA17_7C2305C430C9
 #define FF5E1331_88AF_4C2B_BA17_7C2305C430C9
 // Includes
-
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 // User files
 #include "../window/Window.hpp"
 #include "../events/Event.hpp"

@@ -46,6 +46,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog glfw)
 target_link_libraries(Barrel PUBLIC spdlog::spdlog glfw)
 
+
+#GLAD
+add_subdirectory(vendor/glad/)
+target_link_libraries(Barrel PRIVATE glad)
+
+
 message(WARNING,${SOURCES_CPP} ${SOURCES_HPP})
 
 

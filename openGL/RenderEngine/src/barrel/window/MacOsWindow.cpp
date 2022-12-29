@@ -1,5 +1,8 @@
 #include "../../pch/pchBarrel.hpp" //Pre-compiled headers
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "MacOsWindow.hpp"  // MacOsWindow
 
 #include "../events/ApplicationEvent.hpp"   //Events
@@ -83,6 +86,8 @@ namespace Barrel
         // Create window
         m_Window = glfwCreateWindow((int)prop.Width, (int)prop.Height, m_Data.Title.c_str(),nullptr,nullptr);
         glfwMakeContextCurrent(m_Window);
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);    //Load glad
+        BR_CORE_ASSERT(status,"Failed to initialize glad!");
         glfwSetWindowUserPointer(m_Window, &m_Data);    //Not sure how it works yet
         SetVSync(true);
 
